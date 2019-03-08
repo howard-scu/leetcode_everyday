@@ -3,6 +3,9 @@
 #include <catch.hpp>
 #include "leetcode.h"
 
+#define TEST_ALL 0
+
+#ifndef TEST_ALL
 TEST_CASE("isCompleteTree", "[single-file]")
 {
 	CHECK(isCompleteTree(stringToTreeNode("[1,2,3,4,5,6]")));
@@ -54,7 +57,7 @@ TEST_CASE("nextPermutation", "[single-file]")
 
 	auto v4 = vector<int>{ 1, 2, 3,4 };
 	nextPermutation(v4);
-	CHECK_THAT(v4, Catch::Matchers::Equals(vector<int>{1, 2, 4,3}));
+	CHECK_THAT(v4, Catch::Matchers::Equals(vector<int>{1, 2, 4, 3}));
 
 	auto v5 = vector<int>{ 1,2 };
 	nextPermutation(v5);
@@ -71,7 +74,6 @@ TEST_CASE("mergeTwoLists", "[single-file]")
 	auto vout = vector<int>{ 1, 1, 2, 3, 4, 4 };
 	CHECK_THAT(vout, Catch::Matchers::Equals(stringToIntegerVector(out)));
 }
-
 
 TEST_CASE("merge", "[single-file]")
 {
@@ -90,3 +92,26 @@ TEST_CASE("subarraySum", "[single-file]")
 	auto v = vector<int>{ -624, -624, -624, -624, -624, -624, -624, -624, -624, -624 };
 	CHECK(subarraySum(v, -624) == 10);
 }
+TEST_CASE("nextGreaterElement", "[single-file]")
+{
+	CHECK(nextGreaterElement(12) == 21);
+	CHECK(nextGreaterElement(21) == -1);
+}
+
+TEST_CASE("isSymmetric", "[single-file]")
+{
+	CHECK(isSymmetric(stringToTreeNode("[1, 2, 2, 3, 4, 4, 3]")));
+	CHECK(!isSymmetric(stringToTreeNode("[1,2,2,null,3,null,3]")));
+}
+
+#else
+
+TEST_CASE("levelOrder", "[single-file]")
+{
+	vector<vector<int>> v{ {3},{9,20 },{15,7} };
+	CHECK_THAT(v, Catch::Matchers::Equals(levelOrder(stringToTreeNode("[3,9,20,null,null,15,7]"))));
+}
+
+#endif // !TEST_ALL
+
+

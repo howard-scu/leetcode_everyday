@@ -169,7 +169,7 @@ void nextPermutation(vector<int>& nums)
 	}
 }
 
-ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) 
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
 {
 	if (l1 == nullptr) return l2;
 	else if (l2 == nullptr) return l1;
@@ -214,8 +214,8 @@ ListNode* mergeTwoLists(ListNode* l1, ListNode* l2)
 
 void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
 {
-	int i = m-1;
-	int j = n-1;
+	int i = m - 1;
+	int j = n - 1;
 	int k = m + n - 1;
 
 	while (i >= 0 && j >= 0)
@@ -246,7 +246,6 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
 	}
 }
 
-
 int subarraySum(vector<int>& nums, int k)
 {
 	int count = 0;
@@ -262,3 +261,90 @@ int subarraySum(vector<int>& nums, int k)
 	}
 	return count;
 }
+
+int nextGreaterElement(int n)
+{
+	//int t = n;
+	//vector<unsigned char> digits;
+	//while (t)
+	//{
+	//	digits.push_back(t % 10);
+	//	t /= 10;
+	//}
+	//std::reverse(digits.begin(), digits.end());
+	//std::next_permutation(digits.begin(), digits.end());
+	//
+	//long sum = 0;
+	//for (int i = 0; i < digits.size(); i++)
+	//	sum = sum * 10 + digits[i];
+
+	//if (sum > std::numeric_limits<int>::max()) return -1;
+	//else if (sum <= n) return -1;
+	//else return sum;
+	auto digits = to_string(n);
+	next_permutation(begin(digits), end(digits));
+	auto res = stoll(digits);
+	return (res > INT_MAX || res <= n) ? -1 : res;
+}
+
+
+void reverseTree(TreeNode* root)
+{
+	if (root == nullptr) return;
+	auto p = root->left;
+	auto q = root->right;
+	reverseTree(p);
+	reverseTree(q);
+	root->left = q;
+	root->right = p;
+}
+
+bool compareTree(TreeNode* t1, TreeNode* t2)
+{
+	if (t1 == nullptr && t2 == nullptr) return true;
+	else if (t1 && t2)
+		return (t1->val == t2->val) &&
+		compareTree(t1->left, t2->left)
+		&& compareTree(t1->right, t2->right);
+	else
+		return false;
+}
+
+bool isSymmetric(TreeNode* root)
+{
+	if (root == nullptr) return true;
+	else
+	{
+		// 逆转右子树
+		reverseTree(root->right);
+
+		// 比较左右子树
+		return compareTree(root->left, root->right);
+	}
+}
+
+
+vector<vector<int>> levelOrder(TreeNode* root)
+{
+	vector<vector<int>> rets;
+	if (root == nullptr) return rets;
+	queue<TreeNode*> tq;
+	tq.push(root);
+
+	while (!tq.empty())
+	{
+		int n = tq.size();
+		vector<int> row;
+		for (int i = 0; i < n; i++)
+		{
+			auto node = tq.front();
+			tq.pop();
+			if (node->left)  tq.push(node->left);
+			if (node->right) tq.push(node->right);
+			row.push_back(node->val);
+		}
+		rets.push_back(row);
+	}
+	return rets;
+}
+
