@@ -74,7 +74,6 @@ int sumNumbers(TreeNode* root)
 	return treeSum(root, 0);
 }
 
-
 void make_permuteUnique(vector<int>& nums, vector<vector<int>>& permutes, int p, int q)
 {
 	if (p == q)
@@ -168,4 +167,98 @@ void nextPermutation(vector<int>& nums)
 			swap(nums[p++], nums[q--]);
 		}
 	}
+}
+
+ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) 
+{
+	if (l1 == nullptr) return l2;
+	else if (l2 == nullptr) return l1;
+	else
+	{
+		ListNode* header = new ListNode(0);
+		ListNode* pNode = header;
+		while (l1 != nullptr && l2 != nullptr)
+		{
+			if (l1->val <= l2->val)
+			{
+				pNode->next = l1;
+				l1 = l1->next;
+				pNode = pNode->next;
+			}
+			if (l1 != nullptr && l2->val < l1->val)
+			{
+				pNode->next = l2;
+				l2 = l2->next;
+				pNode = pNode->next;
+			}
+		}
+		while (l1 != nullptr)
+		{
+			pNode->next = l1;
+			l1 = l1->next;
+			pNode = pNode->next;
+		}
+		while (l2 != nullptr)
+		{
+			pNode->next = l2;
+			l2 = l2->next;
+			pNode = pNode->next;
+		}
+		pNode = header;
+		header = header->next;
+		delete pNode;
+		return header;
+	}
+}
+
+
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n)
+{
+	int i = m-1;
+	int j = n-1;
+	int k = m + n - 1;
+
+	while (i >= 0 && j >= 0)
+	{
+		if (nums1[i] >= nums2[j])
+		{
+			nums1[k] = nums1[i];
+			i--;
+		}
+		else
+		{
+			nums1[k] = nums2[j];
+			j--;
+		}
+		k--;
+	}
+	while (i >= 0)
+	{
+		nums1[k] = nums1[i];
+		i--;
+		k--;
+	}
+	while (j >= 0)
+	{
+		nums1[k] = nums2[j];
+		j--;
+		k--;
+	}
+}
+
+
+int subarraySum(vector<int>& nums, int k)
+{
+	int count = 0;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		int sum = 0;
+		for (int j = i; j < nums.size(); j++)
+		{
+			sum += nums[j];
+			if (sum == k)
+				count++;
+		}
+	}
+	return count;
 }
