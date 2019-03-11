@@ -348,3 +348,75 @@ vector<vector<int>> levelOrder(TreeNode* root)
 	return rets;
 }
 
+//void pathSum(vector<vector<int>>& grid, int n, int m, int& sum)
+//{
+//	if (n == 1)
+//	{
+//		for (int i = 0; i < m; i++)
+//			sum += grid[n - 1][i];
+//		return;
+//	}
+//	else if (m == 1)
+//	{
+//		for (int i = 0; i < n; i++)
+//			sum += grid[i][m - 1];
+//		return;
+//	}
+//	else
+//	{
+//		int s1 = sum;
+//		int s2 = sum;
+//
+//		pathSum(grid, n - 1, m, s1);
+//		pathSum(grid, n, m - 1, s2);
+//
+//		sum = min(s1, s2) + grid[n - 1][m - 1];
+//	}
+//}
+//
+//int minPathSum(vector<vector<int>>& grid)
+//{
+//	int n = grid.size();
+//	int m = grid[0].size();
+//
+//	int sum = 0;
+//	pathSum(grid, n, m, sum);
+//	return sum;
+//}
+
+int minPathSum(vector<vector<int>>& grid)
+{
+	int m = grid.size();
+	int n = grid[0].size();
+	vector<vector<int> > sum(m, vector<int>(n, grid[0][0]));
+	for (int i = 1; i < m; i++)
+		sum[i][0] = sum[i - 1][0] + grid[i][0];
+	for (int j = 1; j < n; j++)
+		sum[0][j] = sum[0][j - 1] + grid[0][j];
+	for (int i = 1; i < m; i++)
+		for (int j = 1; j < n; j++)
+			sum[i][j] = min(sum[i - 1][j], sum[i][j - 1]) + grid[i][j];
+	return sum[m - 1][n - 1];
+}
+
+
+int uniquePaths(int m, int n)
+{
+	vector<vector<int> > nPath(m, vector<int>(n, 1));
+	for (int i = 1; i < m; i++)
+		for (int j = 1; j < n; j++)
+			nPath[i][j] = nPath[i - 1][j] + nPath[i][j - 1];
+	return nPath[m - 1][n - 1];
+}
+
+int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid)
+{
+	int m = obstacleGrid.size();
+	int n = obstacleGrid[0].size();
+	vector<vector<int> > nPath(m, vector<int>(n, 1));
+	
+	for (int i = 1; i < m; i++)
+		for (int j = 1; j < n; j++)
+			nPath[i][j] = nPath[i - 1][j] + nPath[i][j - 1];
+	return nPath[m - 1][n - 1];
+}

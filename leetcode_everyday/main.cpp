@@ -104,13 +104,45 @@ TEST_CASE("isSymmetric", "[single-file]")
 	CHECK(!isSymmetric(stringToTreeNode("[1,2,2,null,3,null,3]")));
 }
 
-#else
 
 TEST_CASE("levelOrder", "[single-file]")
 {
-	vector<vector<int>> v{ {3},{9,20 },{15,7} };
+	vector<vector<int>> v{ { 3 },{ 9,20 },{ 15,7 } };
 	CHECK_THAT(v, Catch::Matchers::Equals(levelOrder(stringToTreeNode("[3,9,20,null,null,15,7]"))));
 }
+
+
+TEST_CASE("minPathSum", "[single-file]")
+{
+	vector<vector<int>> grid{
+		{ 1,3,1 },
+	{ 1,5,1 },
+	{ 4,2,1 }
+	};
+
+	CHECK(7 == minPathSum(grid));
+}
+
+TEST_CASE("uniquePaths", "[single-file]")
+{
+	CHECK(3 == uniquePaths(3, 2));
+	CHECK(28 == uniquePaths(7, 3));
+}
+
+#else
+
+TEST_CASE("minPathSum", "[single-file]")
+{
+	vector<vector<int>> grid
+	{
+		{0, 0, 0},
+		{0, 1, 0},
+		{0, 0, 0}
+	};
+
+	CHECK(2 == uniquePathsWithObstacles(grid));
+}
+
 
 #endif // !TEST_ALL
 
