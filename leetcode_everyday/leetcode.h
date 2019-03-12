@@ -460,7 +460,7 @@ void helper(vector<vector<int>>& result, vector<int>& lst, vector<int>& candidat
 		return;
 	}
 	//和subsets一样，从当前位置向后取
-	for (int i = pos; i < candidates.size(); i++) 
+	for (int i = pos; i < candidates.size(); i++)
 	{
 		//当前的数加上当前取出的数的和小于等于target时才继续向下
 		if (sum + candidates[i] <= target)
@@ -541,10 +541,10 @@ void combinationSum2_helper(vector<int>& candidates, int target,
 	}
 }
 
-vector<vector<int>> combinationSum2(vector<int>& candidates, int target) 
+vector<vector<int>> combinationSum2(vector<int>& candidates, int target)
 {
 	sort(candidates.begin(), candidates.end());
-	
+
 	vector<vector<int>> result;
 	vector<int>			combination;
 	combinationSum2_helper(candidates, target, result, combination, 0, 0);
@@ -565,7 +565,7 @@ void combinationSum3_helper(int k, int n,
 	{
 		if (sum < n)
 		{
-			combination.push_back(i+1);
+			combination.push_back(i + 1);
 			combinationSum3_helper(k, n, results, combination, sum + i + 1, i + 1);
 			combination.pop_back();
 		}
@@ -580,3 +580,96 @@ vector<vector<int>> combinationSum3(int k, int n)
 	return results;
 }
 
+void subsets_helper(vector<int>& nums,
+	vector<vector<int>>& results, vector<int>& subset, int begin)
+{
+	if (subset.size() > nums.size())return;
+	else if (subset.size() <= nums.size())
+		results.push_back(subset);
+
+	for (int i = begin; i < nums.size(); i++)
+	{
+		if (subset.size() < nums.size())
+		{
+			subset.push_back(nums[i]);
+			subsets_helper(nums, results, subset, i + 1);
+			subset.pop_back();
+		}
+	}
+}
+
+vector<vector<int>> subsets(vector<int>& nums)
+{
+	vector<vector<int>> results;
+	vector<int> subset;
+	subsets_helper(nums, results, subset, 0);
+	return results;
+}
+
+void subsetsWithDup_helper(vector<int>& nums,
+	vector<vector<int>>& results, vector<int>& subset, int begin)
+{
+	if (subset.size() > nums.size())
+		return;
+	else if (subset.size() <= nums.size())
+		results.push_back(subset);
+
+	for (int i = begin; i < nums.size(); i++)
+	{
+		if (i > begin && nums[i] == nums[i - 1])
+			continue;
+
+		if (subset.size() < nums.size())
+		{
+			subset.push_back(nums[i]);
+			subsetsWithDup_helper(nums, results, subset, i + 1);
+			subset.pop_back();
+		}
+	}
+}
+
+vector<vector<int>> subsetsWithDup(vector<int>& nums)
+{
+	sort(nums.begin(), nums.end());
+
+	vector<vector<int>> results;
+	vector<int>			subset;
+	subsetsWithDup_helper(nums, results, subset, 0);
+	return results;
+}
+
+#include <unordered_map>
+
+void letterCombinations_helper(string& digits,
+	vector<string>& results, string ss, int begin)
+{
+	unordered_map <char, string> dm{ { '2',"abc" }, {'3',"def"},{'4',"ghi"},
+	{'5',"jkl"},{'6',"mno"},{'7',"pqrs"},{'8',"tuv"},{'9',"wxyz"} };
+
+	if (begin > digits.length()) return;
+
+	if (ss.length() == digits.length())
+		results.push_back(ss);
+
+	for (int i = begin; i < digits.length(); i++)
+	{
+		auto ts = dm[digits[begin]];
+		for (int j = 0; j < ts.length(); j++)
+		{
+			if (ss.length() < digits.length())
+			{
+				ss.push_back(ts[j]);
+				letterCombinations_helper(digits, results, ss, i + 1);
+				ss.pop_back();
+			}
+		}
+	}
+}
+
+vector<string> letterCombinations(string digits)
+{
+	vector<string>	results;
+	string			ss;
+	letterCombinations_helper(digits, results, ss, 0);
+	return results;
+}
