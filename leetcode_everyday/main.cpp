@@ -129,21 +129,22 @@ TEST_CASE("uniquePaths", "[single-file]")
 	CHECK(28 == uniquePaths(7, 3));
 }
 
-#else
 
 TEST_CASE("minPathSum", "[single-file]")
 {
 	vector<vector<int>> grid
 	{
-		{0, 0, 0},
-		{0, 1, 0},
-		{0, 0, 0}
+		{ 0, 0, 0 },
+	{ 0, 1, 0 },
+	{ 0, 0, 0 }
 	};
 
 	CHECK(2 == uniquePathsWithObstacles(grid));
+
+	vector<vector<int>> grid1{ { 1 } };
+	CHECK(0 == uniquePathsWithObstacles(grid1));
 }
 
+#else
 
 #endif // !TEST_ALL
-
-

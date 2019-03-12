@@ -413,10 +413,170 @@ int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid)
 {
 	int m = obstacleGrid.size();
 	int n = obstacleGrid[0].size();
-	vector<vector<int> > nPath(m, vector<int>(n, 1));
-	
+	vector<vector<long> > path(m, vector<long>(n, 0));
+
+	bool flag = true;
+	for (int i = 0; i < m; i++)
+	{
+		if (obstacleGrid[i][0])
+			flag = false;
+		if (flag)
+			path[i][0] = 1;
+		else
+			path[i][0] = 0;
+	}
+
+	flag = true;
+	for (int i = 0; i < n; i++)
+	{
+		if (obstacleGrid[0][i])
+			flag = false;
+		if (flag)
+			path[0][i] = 1;
+		else
+			path[0][i] = 0;
+	}
+
 	for (int i = 1; i < m; i++)
 		for (int j = 1; j < n; j++)
-			nPath[i][j] = nPath[i - 1][j] + nPath[i][j - 1];
-	return nPath[m - 1][n - 1];
+			if (obstacleGrid[i][j] == 0)
+				path[i][j] = path[i - 1][j] + path[i][j - 1];
+			else
+				path[i][j] = 0;
+	return path[m - 1][n - 1];
 }
+
+
+void helper(vector<vector<int>>& result, vector<int>& lst, vector<int>& candidates, int target, int sum, int pos)
+{
+	if (pos == candidates.size() && sum != target)
+	{
+		return;
+	}
+	//结果可行的条件，需维护一个当前所有数的sum
+	if (sum == target)
+	{
+		result.push_back(lst);
+		return;
+	}
+	//和subsets一样，从当前位置向后取
+	for (int i = pos; i < candidates.size(); i++) 
+	{
+		//当前的数加上当前取出的数的和小于等于target时才继续向下
+		if (sum + candidates[i] <= target)
+		{
+			lst.push_back(candidates[i]);
+
+			//每个数能取多次，因此传递的pos就是当前数的位置，这样下次可能再取
+			helper(result, lst, candidates, target, sum + candidates[i], i);
+			lst.erase(lst.end() - 1);
+		}
+	}
+}
+
+vector<vector<int>> combinationSum(vector<int>& candidates, int target)
+{
+	// 排序
+	sort(candidates.begin(), candidates.end());
+	vector<vector<int>> result;
+	vector<int> lst;
+	int sum = 0;
+	helper(result, lst, candidates, target, 0, 0);
+
+	return result;
+}
+
+void combine_helper(int n, int k, vector<vector<int>>& result, vector<int>& lst, int pos)
+{
+	//// 不满足条件
+	//if (pos == n && lst.size() != k)
+	//	return;
+
+	// 满足条件
+	if (lst.size() == k)
+	{
+		result.push_back(lst);
+	}
+
+	for (int i = pos; i < n; i++)
+	{
+		if (lst.size() < k)
+		{
+			lst.push_back(i + 1);
+			combine_helper(n, k, result, lst, i + 1);
+			lst.pop_back();
+		}
+	}
+}
+
+vector<vector<int>> combine(int n, int k)
+{
+	vector<vector<int>> result;
+	vector<int> com;
+	combine_helper(n, k, result, com, 0);
+	return result;
+}
+
+void combinationSum2_helper(vector<int>& candidates, int target,
+	vector<vector<int>>& results, vector<int>& combination, int sum, int pos)
+{
+	// 失败组合条件
+	if (pos == candidates.size() && sum > target)
+		return;
+
+	// 成功组合条件
+	if (sum == target)
+		results.push_back(combination);
+
+	// 迭代
+	for (int i = pos; i < candidates.size(); i++)
+	{
+		if (i > pos && candidates[i] == candidates[i - 1]) continue;
+		if (sum < target)
+		{
+			combination.push_back(candidates[i]);
+			combinationSum2_helper(candidates, target, results, combination, sum + candidates[i], i + 1);
+			combination.pop_back();
+		}
+	}
+}
+
+vector<vector<int>> combinationSum2(vector<int>& candidates, int target) 
+{
+	sort(candidates.begin(), candidates.end());
+	
+	vector<vector<int>> result;
+	vector<int>			combination;
+	combinationSum2_helper(candidates, target, result, combination, 0, 0);
+	return result;
+}
+
+void combinationSum3_helper(int k, int n,
+	vector<vector<int>>& results, vector<int>& combination, int sum, int pos)
+{
+	if (combination.size() > k || sum > n) return;
+
+	if (sum == n && combination.size() == k)
+	{
+		results.push_back(combination);
+	}
+
+	for (int i = pos; i < 9; i++)
+	{
+		if (sum < n)
+		{
+			combination.push_back(i+1);
+			combinationSum3_helper(k, n, results, combination, sum + i + 1, i + 1);
+			combination.pop_back();
+		}
+	}
+}
+
+vector<vector<int>> combinationSum3(int k, int n)
+{
+	vector<vector<int>> results;
+	vector<int>			combination;
+	combinationSum3_helper(k, n, results, combination, 0, 0);
+	return results;
+}
+
