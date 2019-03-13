@@ -144,7 +144,20 @@ TEST_CASE("minPathSum", "[single-file]")
 	vector<vector<int>> grid1{ { 1 } };
 	CHECK(0 == uniquePathsWithObstacles(grid1));
 }
-
+TEST_CASE("isLongPressedName", "[single-file]")
+{
+	CHECK(true == isLongPressedName("alex", "aaleex"));
+	CHECK(true == isLongPressedName("laiden", "laiden"));
+	CHECK(true == isLongPressedName("leelee", "lleeelee"));
+	CHECK(false == isLongPressedName("saeed", "ssaaedd"));
+	CHECK(true == isLongPressedName("vtkgn", "vttkgnn"));
+}
 #else
+
+TEST_CASE("isLongPressedName", "[single-file]")
+{
+	CHECK(2 == minSubArrayLen(7, vector<int>{2, 3, 1, 2, 4, 3}));
+	CHECK(1 == minSubArrayLen(4, vector<int>{1, 4, 4}));
+}
 
 #endif // !TEST_ALL

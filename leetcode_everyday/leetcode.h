@@ -673,3 +673,53 @@ vector<string> letterCombinations(string digits)
 	letterCombinations_helper(digits, results, ss, 0);
 	return results;
 }
+
+bool isLongPressedName(string name, string typed)
+{
+	// alex
+	// aallex
+	int i = 0;
+	int j = 0;
+
+	while (i < name.length() || j < typed.length())
+	{
+		if (name[i] == typed[j])
+		{
+			i++;
+			j++;
+		}
+		else if (typed[j] != name[i] && typed[j] == name[i - 1])
+		{
+			j++;
+		}
+		else
+			return false;
+	}
+	if (i == name.length() && j == typed.length())
+		return true;
+	else
+		return false;
+}
+
+int minSubArrayLen(int s, vector<int> nums)
+{
+	int n = nums.size();
+	if (n == 0)
+		return 0;
+	int ans = INT_MAX;
+	vector<int> sums(n + 1, 0);
+	for (int i = 1; i <= n; i++)
+		sums[i] = sums[i - 1] + nums[i - 1];
+	for (int i = 1; i <= n; i++) 
+	{
+		int to_find = s + sums[i - 1];
+		auto bound = lower_bound(sums.begin(), sums.end(), to_find);
+		if (bound != sums.end()) 
+		{
+			ans = min(ans, static_cast<int>(bound - (sums.begin() + i - 1)));
+		}
+	}
+	return (ans != INT_MAX) ? ans : 0;
+}
+
+
