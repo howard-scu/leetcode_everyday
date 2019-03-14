@@ -166,7 +166,6 @@ TEST_CASE("containsNearbyAlmostDuplicate", "[single-file]")
 	CHECK(containsNearbyAlmostDuplicate(vector<int>{1, 0, 1, 1}, 1, 2));
 	CHECK(!containsNearbyAlmostDuplicate(vector<int>{1, 5, 9, 1, 5, 9}, 2, 3));
 }
-#else
 
 TEST_CASE("containsNearbyDuplicate", "[single-file]")
 {
@@ -174,5 +173,16 @@ TEST_CASE("containsNearbyDuplicate", "[single-file]")
 	CHECK(containsNearbyDuplicate(vector<int>{1, 0, 1, 1}, 1));
 	CHECK(!containsNearbyDuplicate(vector<int>{1, 2, 3, 1, 2, 3}, 2));
 }
+#else
+
+
+TEST_CASE("checkPossibility", "[single-file]")
+{
+	//CHECK(checkPossibility(vector<int>{4, 2, 3}));
+	//CHECK(!checkPossibility(vector<int>{4, 2, 1}));
+	CHECK(!checkPossibility(vector<int>{3, 4, 2, 3}));
+	//CHECK(checkPossibility(vector<int>{-1, 4, 2, 3}));
+}
+
 
 #endif // !TEST_ALL

@@ -797,3 +797,29 @@ bool containsNearbyDuplicate(vector<int> nums, int k)
 	}
 	return false;
 }
+
+
+bool checkPossibility(vector<int> nums)
+{
+	int pos = 0;
+	int cnt = 0;
+	for (int i = 1; i < nums.size(); i++)
+	{
+		if (nums[i] - nums[i - 1] < 0)
+		{
+			pos = i - 1;
+			cnt++;
+		}
+	}
+	if (cnt >= 2) return false;
+	else if (cnt == 0) return true;
+	else
+	{
+		if (pos == 0) return true;
+		else if (pos == nums.size() - 2) return true;
+		else if (nums[pos - 1] <= nums[pos + 1] || nums[pos] <= nums[pos + 2])
+			return true;
+
+	}
+	return false;
+}
