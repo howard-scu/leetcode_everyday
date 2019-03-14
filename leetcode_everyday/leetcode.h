@@ -710,11 +710,11 @@ int minSubArrayLen(int s, vector<int> nums)
 	vector<int> sums(n + 1, 0);
 	for (int i = 1; i <= n; i++)
 		sums[i] = sums[i - 1] + nums[i - 1];
-	for (int i = 1; i <= n; i++) 
+	for (int i = 1; i <= n; i++)
 	{
 		int to_find = s + sums[i - 1];
 		auto bound = lower_bound(sums.begin(), sums.end(), to_find);
-		if (bound != sums.end()) 
+		if (bound != sums.end())
 		{
 			ans = min(ans, static_cast<int>(bound - (sums.begin() + i - 1)));
 		}
@@ -722,4 +722,78 @@ int minSubArrayLen(int s, vector<int> nums)
 	return (ans != INT_MAX) ? ans : 0;
 }
 
+void rangeSumBST_helper(TreeNode* root, int L, int R,int& sum)
+{
+	if (root == nullptr) return;
 
+	// Approach 1:
+	//rangeSumBST_helper(root->left, L, R, sum);
+	//if (root->val >= L || root->val <= R)
+	//	sum += root->val;
+	//rangeSumBST_helper(root->right, L, R, sum);
+
+	// Approach 2:
+	if (root->val >= L && root->val <= R)
+	{
+		rangeSumBST_helper(root->left, L, R, sum);
+		sum += root->val;
+		rangeSumBST_helper(root->right, L, R, sum);
+	}
+	else if (root->val < L)
+	{
+		rangeSumBST_helper(root->right, L, R, sum);
+	}
+	else
+	{
+		rangeSumBST_helper(root->left, L, R, sum);
+	}
+}
+
+int rangeSumBST(TreeNode* root, int L, int R)
+{
+	int sum = 0;
+	rangeSumBST_helper(root, L, R, sum);
+	return sum;
+}
+
+bool containsNearbyAlmostDuplicate(vector<int> nums, int k, int t)
+{
+	set<long> window;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		if (i > k) window.erase(nums[i - k - 1]);
+		auto pos = window.lower_bound((long)nums[i] - t);
+		if (pos != window.end() && t >= *pos - nums[i])
+			return true;
+		window.insert(nums[i]);
+	}
+	return false;
+	//for (int i = 0; i < nums.size() - k; i++)
+	//{
+	//	vector<int> subvec(nums.begin() + i, nums.begin() + i + k + 1);
+	//	sort(subvec.begin(), subvec.end());
+	//	for (int j = 0; j < subvec.size() - 1; j++)
+	//	{
+	//		auto d = abs(subvec[j + 1] - subvec[j]);
+	//		if (d <= t)
+	//			return true;
+	//	}
+	//}
+	//return false;
+}
+
+
+bool containsNearbyDuplicate(vector<int> nums, int k)
+{
+	set<int> vset;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		if (i > k) vset.erase(nums[i - k - 1]);
+		auto it = vset.lower_bound(nums[i]);
+		if (it != vset.end() && *it == nums[i])
+			return true;
+
+		vset.insert(nums[i]);
+	}
+	return false;
+}

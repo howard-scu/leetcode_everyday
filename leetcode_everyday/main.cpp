@@ -152,12 +152,27 @@ TEST_CASE("isLongPressedName", "[single-file]")
 	CHECK(false == isLongPressedName("saeed", "ssaaedd"));
 	CHECK(true == isLongPressedName("vtkgn", "vttkgnn"));
 }
-#else
+
 
 TEST_CASE("isLongPressedName", "[single-file]")
 {
 	CHECK(2 == minSubArrayLen(7, vector<int>{2, 3, 1, 2, 4, 3}));
 	CHECK(1 == minSubArrayLen(4, vector<int>{1, 4, 4}));
+}
+TEST_CASE("containsNearbyAlmostDuplicate", "[single-file]")
+{
+	//CHECK(containsNearbyAlmostDuplicate(vector<int>{1, 2}, 0, 0));
+	CHECK(containsNearbyAlmostDuplicate(vector<int>{1, 2, 3, 1}, 3, 0));
+	CHECK(containsNearbyAlmostDuplicate(vector<int>{1, 0, 1, 1}, 1, 2));
+	CHECK(!containsNearbyAlmostDuplicate(vector<int>{1, 5, 9, 1, 5, 9}, 2, 3));
+}
+#else
+
+TEST_CASE("containsNearbyDuplicate", "[single-file]")
+{
+	CHECK(containsNearbyDuplicate(vector<int>{1, 2, 3, 1}, 3));
+	CHECK(containsNearbyDuplicate(vector<int>{1, 0, 1, 1}, 1));
+	CHECK(!containsNearbyDuplicate(vector<int>{1, 2, 3, 1, 2, 3}, 2));
 }
 
 #endif // !TEST_ALL
