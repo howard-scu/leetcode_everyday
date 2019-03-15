@@ -173,7 +173,6 @@ TEST_CASE("containsNearbyDuplicate", "[single-file]")
 	CHECK(containsNearbyDuplicate(vector<int>{1, 0, 1, 1}, 1));
 	CHECK(!containsNearbyDuplicate(vector<int>{1, 2, 3, 1, 2, 3}, 2));
 }
-#else
 
 
 TEST_CASE("checkPossibility", "[single-file]")
@@ -184,5 +183,11 @@ TEST_CASE("checkPossibility", "[single-file]")
 	//CHECK(checkPossibility(vector<int>{-1, 4, 2, 3}));
 }
 
+#else
+
+TEST_CASE("diameterOfBinaryTree", "[single-file]")
+{
+	CHECK(diameterOfBinaryTree(stringToTreeNode("[1,2,null,4,5,6,7,8]")) == 4);
+}
 
 #endif // !TEST_ALL

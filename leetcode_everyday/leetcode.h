@@ -823,3 +823,39 @@ bool checkPossibility(vector<int> nums)
 	}
 	return false;
 }
+
+
+int diameterOfBinaryTree_helper(TreeNode* root, int& result)
+{
+	if (root == nullptr)
+		return 0;
+	else
+	{
+		auto l = diameterOfBinaryTree_helper(root->left, result);
+		auto r = diameterOfBinaryTree_helper(root->right, result);
+		result = result > (l + r + 1) ? result : (l + r + 1);
+		return (l > r ? l : r) + 1;
+	}
+}
+
+int diameterOfBinaryTree(TreeNode* root)
+{
+	int result = 1;
+	diameterOfBinaryTree_helper(root, result);
+	return result - 1;
+}
+
+int maxDepth(Node* root) 
+{
+	if (root == nullptr) return 0;
+	else
+	{
+		int depth = 1;
+		for (int i = 0; i < root->children.size(); i++)
+		{
+			auto d = maxDepth(root->children[i]) + 1;
+			if (depth < d) depth = d;
+		}
+		return depth;
+	}
+}
