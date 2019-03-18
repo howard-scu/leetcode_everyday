@@ -183,11 +183,20 @@ TEST_CASE("checkPossibility", "[single-file]")
 	//CHECK(checkPossibility(vector<int>{-1, 4, 2, 3}));
 }
 
-#else
-
 TEST_CASE("diameterOfBinaryTree", "[single-file]")
 {
 	CHECK(diameterOfBinaryTree(stringToTreeNode("[1,2,null,4,5,6,7,8]")) == 4);
 }
+
+TEST_CASE("reverseVowels", "[single-file]")
+{
+	CHECK_THAT("holle", Catch::Matchers::Equals(reverseVowels("hello")));
+	CHECK_THAT("leetcode", Catch::Matchers::Equals(reverseVowels("leotcede")));
+}
+
+#else
+
+
+
 
 #endif // !TEST_ALL

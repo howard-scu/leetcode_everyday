@@ -722,7 +722,7 @@ int minSubArrayLen(int s, vector<int> nums)
 	return (ans != INT_MAX) ? ans : 0;
 }
 
-void rangeSumBST_helper(TreeNode* root, int L, int R,int& sum)
+void rangeSumBST_helper(TreeNode* root, int L, int R, int& sum)
 {
 	if (root == nullptr) return;
 
@@ -845,7 +845,7 @@ int diameterOfBinaryTree(TreeNode* root)
 	return result - 1;
 }
 
-int maxDepth(Node* root) 
+int maxDepth(Node* root)
 {
 	if (root == nullptr) return 0;
 	else
@@ -859,3 +859,26 @@ int maxDepth(Node* root)
 		return depth;
 	}
 }
+
+
+unordered_map<char, bool> dict{
+	make_pair('a',true),
+	make_pair('e',true),
+	make_pair('i',true),
+	make_pair('o',true),
+	make_pair('u',true) };
+
+string reverseVowels(string s)
+{
+	int i = 0;
+	int j = s.length() - 1;
+	while (i < j)
+	{
+		if (dict[s[i]] != true) i++;
+		if (dict[s[j]] != true) j--;
+		if (dict[s[i]] && dict[s[j]])
+			swap(s[i++], s[j--]);
+	}
+	return s;
+}
+
