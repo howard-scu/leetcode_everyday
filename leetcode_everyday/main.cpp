@@ -194,9 +194,21 @@ TEST_CASE("reverseVowels", "[single-file]")
 	CHECK_THAT("leetcode", Catch::Matchers::Equals(reverseVowels("leotcede")));
 }
 
+TEST_CASE("longestPalindrome", "[single-file]")
+{
+	CHECK_THAT("bab", Catch::Matchers::Equals(longestPalindrome("babad")));
+	CHECK_THAT("bb", Catch::Matchers::Equals(longestPalindrome("cbbd")));
+	CHECK_THAT("bb", Catch::Matchers::Equals(longestPalindrome("bb")));
+	CHECK_THAT("a", Catch::Matchers::Equals(longestPalindrome("a")));
+	CHECK_THAT("", Catch::Matchers::Equals(longestPalindrome("")));
+}
+
 #else
 
-
-
+TEST_CASE("shortestPalindrome", "[single-file]")
+{
+	CHECK_THAT("aaacecaaa", Catch::Matchers::Equals(shortestPalindrome("aacecaaa")));
+	CHECK_THAT("dcbabcd", Catch::Matchers::Equals(shortestPalindrome("abcd")));
+}
 
 #endif // !TEST_ALL

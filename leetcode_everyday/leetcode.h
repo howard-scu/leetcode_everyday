@@ -882,3 +882,81 @@ string reverseVowels(string s)
 	return s;
 }
 
+string longestPalindrome(string s)
+{
+	if (s.length() <= 1) return s;
+	vector<vector<bool>> bvec(s.length(), vector<bool>(s.length(), false));
+	int maxLen = 0;
+	int max_i = 0;
+
+	for (int i = s.length() - 1; i >= 0; i--)
+	{
+		for (int j = i; j < s.length(); j++)
+		{
+			if(i == j)
+				bvec[i][j] = true;
+			else if (j == i + 1)
+				bvec[i][j] = (s[i] == s[j]);
+			else if (j > i + 1)
+			{
+				bvec[i][j] = (bvec[i + 1][j - 1] && (s[i] == s[j]));
+			}
+			if (bvec[i][j] && maxLen < (j - i + 1))
+			{
+				maxLen = (j - i + 1);
+				max_i = i;
+			}
+			//cout << i << "," << j << "," << bvec[i][j] << "," << s.substr(i, j - i + 1) << endl;
+		}
+	}
+	return s.substr(max_i, maxLen);
+}
+
+
+string shortestPalindrome(string s)
+{
+	if (s.length() <= 1) return s;
+	vector<vector<bool>> bvec(s.length(), vector<bool>(s.length(), false));
+	int max_i = 0;
+	int maxLen = 0;
+
+	for (int i = s.length() - 1; i >= 0; i--)
+	{
+		for (int j = i; j < s.length(); j++)
+		{
+			if (i == j)
+				bvec[i][j] = true;
+			else if (j == i + 1)
+				bvec[i][j] = (s[i] == s[j]);
+			else if (j > i + 1)
+			{
+				bvec[i][j] = (bvec[i + 1][j - 1] && (s[i] == s[j]));
+			}
+		}
+	}
+
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (bvec[0][i])
+		{
+			max_i = i;
+			maxLen = i - 0 + 1;
+		}
+	}
+	auto tail = s.substr(max_i + 1, s.length() - maxLen);
+	reverse(tail.begin(), tail.end());
+	return  tail + s;
+}
+
+
+int thirdMax(vector<int>& nums)
+{
+	set<int> top3;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		top3.insert(nums[i]);
+		if (top3.size() > 3)
+			top3.erase(top3.begin()); // the minimun
+	}
+	return *top3.begin();
+}
