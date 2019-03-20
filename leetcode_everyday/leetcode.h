@@ -960,3 +960,73 @@ int thirdMax(vector<int>& nums)
 	}
 	return *top3.begin();
 }
+
+
+int maxProduct(vector<int> nums)
+{
+	//int result = numeric_limits<int>::min();
+	//vector<vector<int>> dp(nums.size(), vector<int>(nums.size(), 0));
+	//for (int i = 0; i < nums.size(); i++)
+	//{
+	//	for (int j = i; j < nums.size(); j++)
+	//	{
+	//		if (i == j)
+	//			dp[i][j] = nums[i];
+	//		else
+	//			dp[i][j] = dp[i][j - 1] * nums[j];
+	//		if (result < dp[i][j])
+	//			result = dp[i][j];
+	//	}
+	//}
+	//return result;
+
+	int imax = nums[0];
+	int imin = nums[0];
+	int r = nums[0];
+	for (int i = 1; i < nums.size(); i++)
+	{
+		if (nums[i] < 0)
+			swap(imax, imin);
+		imax = max(nums[i], imax*nums[i]);
+		imin = min(nums[i], imin*nums[i]);
+		r = max(imax, r);
+	}
+	return r;
+}
+
+string convert(string s, int numRows)
+{
+	//A     G
+	//B   F H
+	//C E   I
+	//D 
+	//string result(s);
+	//int c = 2 * numRows - 2;
+	//for (int i = 0; i < numRows; i++)
+	//{
+	//	for (int j = i; j < s.length(); j+=c)
+	//	{
+	//		result[i] = s[j];
+	//		if (i != 0 && i != numRows - 1 && j + cycleLen - i < n)
+	//			ret += s[j + cycleLen - i];
+	//	}
+	//}
+
+	if (numRows == 1) return s;
+
+	string ret;
+	int n = s.size();
+	int cycleLen = 2 * numRows - 2;
+
+	for (int i = 0; i < numRows; i++)
+	{
+		for (int j = 0; j + i < n; j += cycleLen) 
+		{
+			ret += s[j + i];
+			if (i != 0 && i != numRows - 1 && j + cycleLen - i < n)
+				ret += s[j + cycleLen - i];
+		}
+	}
+	return ret;
+}
+

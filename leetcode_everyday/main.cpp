@@ -203,12 +203,89 @@ TEST_CASE("longestPalindrome", "[single-file]")
 	CHECK_THAT("", Catch::Matchers::Equals(longestPalindrome("")));
 }
 
-#else
-
 TEST_CASE("shortestPalindrome", "[single-file]")
 {
 	CHECK_THAT("aaacecaaa", Catch::Matchers::Equals(shortestPalindrome("aacecaaa")));
 	CHECK_THAT("dcbabcd", Catch::Matchers::Equals(shortestPalindrome("abcd")));
 }
+
+TEST_CASE("maxProduct", "[single-file]")
+{
+	CHECK(6 == maxProduct(vector<int>{2, 3, -2, 4}));
+	CHECK(0 == maxProduct(vector<int>{-2, 0, -1}));
+}
+
+TEST_CASE("convert", "[single-file]")
+{
+	CHECK_THAT("PAHNAPLSIIGYIR", Catch::Matchers::Equals(convert("PAYPALISHIRING", 3)));
+	CHECK_THAT("PINALSIGYAHRPI", Catch::Matchers::Equals(convert("PAYPALISHIRING", 4)));
+}
+#else
+
+//TEST_CASE("isNumber", "[single-file]")
+//{
+//	CHECK(isNumber("0"));
+//	CHECK(isNumber(" 0.1 "));
+//	CHECK(!isNumber("abc"));
+//	CHECK(!isNumber("1 a"));
+//	CHECK(isNumber("2e10"));
+//	CHECK(isNumber(" -90e3   "));
+//	CHECK(!isNumber(" 1e"));
+//	CHECK(!isNumber("e3"));
+//	CHECK(isNumber(" 6e-1"));
+//	CHECK(isNumber(" 99e2.5 "));
+//	CHECK(isNumber("53.5e93"));
+//	CHECK(!isNumber(" --6 "));
+//	CHECK(!isNumber("-+3"));
+//	CHECK(!isNumber("95a54e53"));
+//}
+
+
+//string parse_blank(string s)
+//{
+//	int i = 0;
+//	int j = s.length() - 1;
+//	while (i < s.length() && s[i] == ' ')i++;
+//	while (j >= 0 && s[j] == ' ')j--;
+//	if (i > j)
+//		return "";
+//	else
+//		return s.substr(i, j - i + 1);
+//}
+//
+//bool parse_digit(string s)
+//{
+//	int digit = -1;
+//	for (int i = 0; i < s.length(); i++)
+//	{
+//		if (s[i] >= '0' && s[i] <= '9')
+//			continue;
+//		else if (digit < 0 && s[i] == '.')
+//			digit = i;
+//		else
+//			return false;
+//	}
+//	if (digit == 0 || digit == s.length() - 1)
+//		return false;
+//	else
+//		return true;
+//}
+//
+//TEST_CASE("isNumber", "[single-file]")
+//{
+//	CHECK(parse_blank("a") == "a");
+//	CHECK(parse_blank(" a") == "a");
+//	CHECK(parse_blank("a e ") == "a e");
+//	CHECK(parse_blank("   a") == "a");
+//	CHECK(parse_blank("   a   ") == "a");
+//	CHECK(parse_blank("  ") == "");
+//	CHECK(parse_blank("") == "");
+//
+//	CHECK(parse_digit("0.1"));
+//	CHECK(!parse_digit("0..2"));
+//	CHECK(!parse_digit("2."));
+//	CHECK(!parse_digit(".2"));
+//}
+
 
 #endif // !TEST_ALL
