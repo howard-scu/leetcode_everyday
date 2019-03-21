@@ -288,4 +288,18 @@ TEST_CASE("convert", "[single-file]")
 //}
 
 
+TEST_CASE("rotateRight", "[single-file]")
+{
+	ListNode* l1 = stringToListNode("[1,2,3,4,5]");
+	string out1 = listNodeToString(rotateRight(l1, 2));
+	CHECK("[4, 5, 1, 2, 3]" == out1);
+
+	ListNode* l2 = stringToListNode("[0,1,2]");
+	string out2 = listNodeToString(rotateRight(l2, 4));
+	CHECK("[2, 0, 1]" == out2);
+
+	ListNode* l3 = stringToListNode("[1,2]");
+	string out3 = listNodeToString(rotateRight(l3, 2));
+	CHECK("[1, 2]" == out3);
+}
 #endif // !TEST_ALL

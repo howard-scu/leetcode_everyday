@@ -1030,3 +1030,159 @@ string convert(string s, int numRows)
 	return ret;
 }
 
+
+ListNode* rotateRight(ListNode* head, int k) 
+{
+	if (head == nullptr || k == 0) return head;
+
+	// 计算长度
+	ListNode* p = head;
+	int len = 0;
+	while (p) 
+	{
+		p = p->next;
+		len++;
+	}
+
+	k = k % len;
+	if (k == 0)
+		return head;
+
+	k = len - k;
+
+	// 找kth-node
+	p = head;
+	ListNode* q = p;
+	for (int i = 0; i < k; i++)
+	{
+		q = p;
+		p = p->next;
+	}
+	q->next = nullptr;
+
+	q = p;
+	while (q->next)
+	{
+		q = q->next;
+	}
+
+	q->next = head;
+	return p;
+}
+
+
+vector<ListNode*> splitListToParts(ListNode* root, int k)
+{
+	if (root == nullptr)
+		return vector<ListNode*>(k, nullptr);
+
+	vector<ListNode*> result;
+	
+	// 计算长度
+	ListNode* p = root;
+	int len = 0;
+	while (p)
+	{
+		p = p->next;
+		len++;
+	}
+
+	int n = len / k;
+	int m = len % k;
+	
+	// 前面[m]个list每个包含[n+1]个节点
+	// 后面[k-m]个list每个包含[n]个节点
+	if (n == 0)
+	{
+		ListNode* t = root;
+		ListNode* s = root;
+		for (int i = 0; i < m; i++)
+		{
+			s = t->next;
+			t->next = nullptr;
+			result.push_back(t);
+			t = s;
+		}
+		for (int i = 0; i < k - m; i++)
+		{
+			result.push_back(nullptr);
+		}
+		return result;
+	}
+	p = root;
+	ListNode* q = root;
+	for (int i = 0; i < m; i++)
+	{
+		p = q;
+		for (int j = 0; j < n; j++)
+		{
+			p = p->next;
+		}
+		ListNode* t = p->next;
+		p->next = nullptr;
+		result.push_back(q);
+		q = t;
+	}
+	
+	for (int i = 0; i < k - m; i++)
+	{
+		p = q;
+		for (int j = 0; j < n - 1; j++)
+		{
+			p = p->next;
+		}
+		ListNode* t = p->next;
+		p->next = nullptr;
+		result.push_back(q);
+		q = t;
+	}
+	return result;
+}
+
+void printList(ListNode* head)
+{
+	ListNode* p = head;
+	while (p)
+	{
+		cout << p->val << " -> ";
+		p = p->next;
+	}
+	cout << " null " << endl;
+}
+
+ListNode* oddEvenList(ListNode* head)
+{
+	if (head == nullptr) return head;
+
+	ListNode* odd  = new ListNode(0);
+	ListNode* even = new ListNode(0);
+
+	ListNode* t = odd;
+	ListNode* s = even;
+	int id = 0;
+	ListNode* p = head;
+	while (p)
+	{
+		id++;
+		
+		ListNode* q = p;
+		p = p->next;
+		q->next = nullptr;
+
+		if (id % 2 == 1)
+		{
+			t->next = q;
+			t = t->next;
+		}
+		else
+		{
+			s->next = q;
+			s = s->next;
+		}
+	}
+	t->next = even->next;
+	delete even;
+	head = odd->next;
+	delete odd;
+	return head;
+}
