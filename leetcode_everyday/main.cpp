@@ -220,6 +220,22 @@ TEST_CASE("convert", "[single-file]")
 	CHECK_THAT("PAHNAPLSIIGYIR", Catch::Matchers::Equals(convert("PAYPALISHIRING", 3)));
 	CHECK_THAT("PINALSIGYAHRPI", Catch::Matchers::Equals(convert("PAYPALISHIRING", 4)));
 }
+
+TEST_CASE("rotateRight", "[single-file]")
+{
+	ListNode* l1 = stringToListNode("[1,2,3,4,5]");
+	string out1 = listNodeToString(rotateRight(l1, 2));
+	CHECK("[4, 5, 1, 2, 3]" == out1);
+
+	ListNode* l2 = stringToListNode("[0,1,2]");
+	string out2 = listNodeToString(rotateRight(l2, 4));
+	CHECK("[2, 0, 1]" == out2);
+
+	ListNode* l3 = stringToListNode("[1,2]");
+	string out3 = listNodeToString(rotateRight(l3, 2));
+	CHECK("[1, 2]" == out3);
+}
+
 #else
 
 //TEST_CASE("isNumber", "[single-file]")
@@ -288,18 +304,38 @@ TEST_CASE("convert", "[single-file]")
 //}
 
 
-TEST_CASE("rotateRight", "[single-file]")
+//["MyLinkedList",
+//"addAtHead", 
+//"addAtHead", 
+//"deleteAtIndex", 
+//"addAtIndex", 
+//"addAtHead", 
+//"addAtHead"
+//"addAtHead",
+//"get"
+//, "addAtTail"
+//, "addAtIndex", 
+//"addAtHead"]
+//[[], [5], [2], [1], [1, 9], [4], [9], [8], [3], [1], [3, 6], [3]]
+TEST_CASE("MyLinkedList", "[single-file]")
 {
-	ListNode* l1 = stringToListNode("[1,2,3,4,5]");
-	string out1 = listNodeToString(rotateRight(l1, 2));
-	CHECK("[4, 5, 1, 2, 3]" == out1);
+	MyLinkedList linkedList;
+	linkedList.addAtHead(5);
+	linkedList.addAtHead(2);
+	linkedList.deleteAtIndex(1);
 
-	ListNode* l2 = stringToListNode("[0,1,2]");
-	string out2 = listNodeToString(rotateRight(l2, 4));
-	CHECK("[2, 0, 1]" == out2);
+	linkedList.addAtIndex(1, 9);
 
-	ListNode* l3 = stringToListNode("[1,2]");
-	string out3 = listNodeToString(rotateRight(l3, 2));
-	CHECK("[1, 2]" == out3);
+	linkedList.addAtHead(4);
+	linkedList.addAtHead(9);
+	linkedList.addAtHead(8);
+
+	linkedList.get(3);
+	linkedList.addAtTail(1);
+	linkedList.addAtIndex(3, 6);
+	linkedList.addAtHead(3);
+	linkedList.print();
 }
+
+
 #endif // !TEST_ALL

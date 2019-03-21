@@ -893,7 +893,7 @@ string longestPalindrome(string s)
 	{
 		for (int j = i; j < s.length(); j++)
 		{
-			if(i == j)
+			if (i == j)
 				bvec[i][j] = true;
 			else if (j == i + 1)
 				bvec[i][j] = (s[i] == s[j]);
@@ -1020,7 +1020,7 @@ string convert(string s, int numRows)
 
 	for (int i = 0; i < numRows; i++)
 	{
-		for (int j = 0; j + i < n; j += cycleLen) 
+		for (int j = 0; j + i < n; j += cycleLen)
 		{
 			ret += s[j + i];
 			if (i != 0 && i != numRows - 1 && j + cycleLen - i < n)
@@ -1031,14 +1031,14 @@ string convert(string s, int numRows)
 }
 
 
-ListNode* rotateRight(ListNode* head, int k) 
+ListNode* rotateRight(ListNode* head, int k)
 {
 	if (head == nullptr || k == 0) return head;
 
 	// 计算长度
 	ListNode* p = head;
 	int len = 0;
-	while (p) 
+	while (p)
 	{
 		p = p->next;
 		len++;
@@ -1077,7 +1077,7 @@ vector<ListNode*> splitListToParts(ListNode* root, int k)
 		return vector<ListNode*>(k, nullptr);
 
 	vector<ListNode*> result;
-	
+
 	// 计算长度
 	ListNode* p = root;
 	int len = 0;
@@ -1089,7 +1089,7 @@ vector<ListNode*> splitListToParts(ListNode* root, int k)
 
 	int n = len / k;
 	int m = len % k;
-	
+
 	// 前面[m]个list每个包含[n+1]个节点
 	// 后面[k-m]个list每个包含[n]个节点
 	if (n == 0)
@@ -1123,7 +1123,7 @@ vector<ListNode*> splitListToParts(ListNode* root, int k)
 		result.push_back(q);
 		q = t;
 	}
-	
+
 	for (int i = 0; i < k - m; i++)
 	{
 		p = q;
@@ -1154,7 +1154,7 @@ ListNode* oddEvenList(ListNode* head)
 {
 	if (head == nullptr) return head;
 
-	ListNode* odd  = new ListNode(0);
+	ListNode* odd = new ListNode(0);
 	ListNode* even = new ListNode(0);
 
 	ListNode* t = odd;
@@ -1164,7 +1164,7 @@ ListNode* oddEvenList(ListNode* head)
 	while (p)
 	{
 		id++;
-		
+
 		ListNode* q = p;
 		p = p->next;
 		q->next = nullptr;
@@ -1186,3 +1186,139 @@ ListNode* oddEvenList(ListNode* head)
 	delete odd;
 	return head;
 }
+
+
+class MyLinkedList
+{
+public:
+	/** Initialize your data structure here. */
+	MyLinkedList() 
+	{
+		head = new LNode(0);
+		tail = head;
+		length = 0;
+	}
+
+	~MyLinkedList()
+	{
+		LNode* p = head;
+		while (p)
+		{
+			LNode* q = p->next;
+			delete p;
+			p = q;
+		}
+	}
+
+	void print()
+	{
+		LNode* p = head->next;
+		while (p)
+		{
+			cout << p->val << " -> ";
+			p = p->next;
+		}
+		cout << "null" << endl;
+	}
+
+	/** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
+	int get(int index) 
+	{
+		if (index <0 || index > length - 1)
+			return -1;
+	
+		LNode* p = head;
+		while (index >= 0)
+		{
+			p = p->next;
+			index--;
+		}
+		return p->val;
+	}
+
+	/** Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list. */
+	void addAtHead(int val)
+	{
+		if (head == tail)
+			addAtTail(val);
+		else
+		{
+			LNode* p = new LNode(val);
+			LNode* q = head->next;
+			head->next = p;
+			p->next = q;
+			length++;
+		}
+	}
+
+	/** Append a node of value val to the last element of the linked list. */
+	void addAtTail(int val) 
+	{
+		LNode* p = new LNode(val);
+		tail->next = p;
+		tail = tail->next;
+		length++;
+	}
+
+	/** Add a node of value val before the index-th node in the linked list. If index equals to the length of linked list, the node will be appended to the end of linked list. If index is greater than the length, the node will not be inserted. */
+	void addAtIndex(int index, int val)
+	{
+		if (index <0 || index > length)
+			return;
+
+		if (index == length)
+		{
+			print();
+			addAtTail(val);
+			print();
+		}
+		else
+		{
+			LNode* p = head;
+			while (index > 0)
+			{
+				p = p->next;
+				index--;
+			}
+			LNode* q = new LNode(val);
+			LNode* t = p->next;
+			p->next = q;
+			q->next = t;
+			length++;
+		}
+	}
+
+	/** Delete the index-th node in the linked list, if the index is valid. */
+	void deleteAtIndex(int index)
+	{
+		if (index <0 || index >= length)
+			return;
+
+		LNode* p = head;
+		while (index > 0)
+		{
+			p = p->next;
+			index--;
+		}
+		LNode* q = p->next;
+		p->next = q->next;
+		if (q == tail)
+			tail = p;
+		delete q;
+		length--;
+	}
+
+private:
+	typedef struct LNode
+	{
+		int		val;
+		LNode*	next;
+		LNode(int x) : val(x), next(nullptr) {}
+	}LNode;
+
+	LNode* head;
+	LNode* tail;
+	int	   length;
+};
+
+
