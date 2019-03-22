@@ -1322,3 +1322,216 @@ private:
 };
 
 
+vector<int> plusOne(vector<int>& digits)
+{
+	vector<int> result(digits.size(), 0);
+
+	int carry = 1;
+	for (int i = digits.size() - 1; i >= 0; i--)
+	{
+		auto s = digits[i] + carry;
+		result[i] = s % 10;
+		carry = s / 10;
+	}
+	if (carry != 0) 
+		result.insert(result.begin(), carry);
+	return result;
+}
+
+int trailingZeroes(int n)
+{
+	int c = 0;
+	while (n)
+	{
+		c += (n / 5);
+		n /= 5;
+	}
+	return c;
+}
+
+class MinStack
+{
+public:
+	/** initialize your data structure here. */
+	MinStack()
+	{
+		imin = -1;
+		itop = -1;
+	}
+
+	void push(int x)
+	{
+		if (imin < 0)
+		{
+			istack.push_back(x);
+			imin = 0;
+			itop = 0;
+		}
+		else
+		{
+			istack.push_back(x);
+			itop++;
+			if (istack[imin] > x)
+				imin = itop;
+		}
+	}
+
+	void pop()
+	{
+		if (itop >= 0)
+		{
+			if (imin == itop)
+			{
+				// update imin
+				auto min = numeric_limits<int>::max();
+				for (int i = 0; i < itop; i++)
+				{
+					if (min > istack[i])
+					{
+						min = istack[i];
+						imin = i;
+					}
+				}
+			}
+			istack.erase(istack.begin() + itop);
+			itop--;
+		}
+	}
+
+	int top()
+	{
+		if (itop >= 0)
+			return istack[itop];
+		else
+			return 0;
+	}
+
+	int getMin()
+	{
+		if (imin >= 0)
+			return istack[imin];
+		else
+			return 0;
+	}
+
+	void print()
+	{
+		for (int i = 0; i < istack.size(); i++)
+			cout << istack[i] << ",";
+
+		cout << endl;
+		cout << "imin = " << imin << endl;
+		cout << "itop = " << itop << endl;
+		cout << "--------------" << endl;
+	}
+
+private:
+	int				imin;
+	int				itop;
+	vector<int>		istack;
+};
+
+
+bool hasCycle(ListNode *head)
+{
+	if (head == nullptr || head->next == nullptr)
+		return false;
+
+	ListNode* slow = head;
+	ListNode* fast = head->next;
+	while (fast != slow)
+	{
+		if (!fast || !fast->next)
+			return false;
+
+		fast = fast->next->next;
+		slow = slow->next;
+	}
+	return true;
+}
+
+
+ListNode *detectCycle(ListNode *head)
+{
+	// _____ ____
+	//  x1  | x2 |
+	//      |____|
+	//        x3 
+	// x1 + x2 + x3 + x2 = 2*(x1+x2)
+	// ==>   x1 = x3
+	if (head == nullptr || head->next == nullptr)
+		return nullptr;
+
+	ListNode* slow = head;
+	ListNode* fast = head;
+
+	while (fast && slow)
+	{
+		if (slow->next)
+			slow = slow->next;
+		else return nullptr;
+
+		if (fast->next && fast->next->next)
+			fast = fast->next->next;
+		else return nullptr;
+
+		if (fast == slow)
+			break;
+	}
+
+	fast = head;
+	while (fast != slow)
+	{
+		fast = fast->next;
+		slow = slow->next;
+	}
+	return fast;
+}
+
+vector<vector<int>> generate(int n)
+{
+	vector<vector<int>> result;
+	for (int i = 0; i < n; i++)
+	{
+		if (i == 0)
+			result.push_back(vector<int>{1});
+		else if (i == 1)
+			result.push_back(vector<int>{1, 1});
+		else
+		{
+			vector<int> line(i+1, 1);
+			for (int j = 1; j < i; j++)
+			{
+				line[j] = result[i - 1][j - 1] + result[i - 1][j];
+			}
+			result.push_back(line);
+		}
+	}
+	return result;
+}
+
+vector<int> getRow(int rowIndex)
+{
+	vector<int> res;
+	for (int i = 0; i <= rowIndex; i++)
+	{
+		res.push_back(1);
+		for (int j = i - 1; j >= 1; --j)
+			res[j] = res[j] + res[j - 1];
+	}
+	return res;
+}
+int height(TreeNode* root)
+{
+	if (root == nullptr) return 0;
+	int l = height(root->left) + 1;
+	int r = height(root->right) + 1;
+	return max(l, r);
+}
+bool isBalanced(TreeNode* root)
+{
+	if (root == nullptr) return true;
+	int l = height(root->left);
+	int r = height(root->right);
+	return abs(l - r) <= 1 && isBalanced(root->left) && isBalanced(root->right);
+}

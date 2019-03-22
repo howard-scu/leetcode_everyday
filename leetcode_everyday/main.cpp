@@ -236,6 +236,27 @@ TEST_CASE("rotateRight", "[single-file]")
 	CHECK("[1, 2]" == out3);
 }
 
+
+TEST_CASE("MyLinkedList", "[single-file]")
+{
+	MyLinkedList linkedList;
+	linkedList.addAtHead(5);
+	linkedList.addAtHead(2);
+	linkedList.deleteAtIndex(1);
+
+	linkedList.addAtIndex(1, 9);
+
+	linkedList.addAtHead(4);
+	linkedList.addAtHead(9);
+	linkedList.addAtHead(8);
+
+	linkedList.get(3);
+	linkedList.addAtTail(1);
+	linkedList.addAtIndex(3, 6);
+	linkedList.addAtHead(3);
+	linkedList.print();
+}
+
 #else
 
 //TEST_CASE("isNumber", "[single-file]")
@@ -303,39 +324,38 @@ TEST_CASE("rotateRight", "[single-file]")
 //	CHECK(!parse_digit(".2"));
 //}
 
+//Input:
+//["MinStack", "push", "push", "push", "push", "getMin", "pop", "getMin", "pop", "getMin", "pop", "getMin"]
+//[[], [2], [0], [3], [0], [], [], [], [], [], [], []]
+//Output :
+//[null, null, null, null, null, 0, null, 0, null, 0, null, 0]
+//Expected :
+//[null, null, null, null, null, 0, null, 0, null, 0, null, 2]
 
-//["MyLinkedList",
-//"addAtHead", 
-//"addAtHead", 
-//"deleteAtIndex", 
-//"addAtIndex", 
-//"addAtHead", 
-//"addAtHead"
-//"addAtHead",
-//"get"
-//, "addAtTail"
-//, "addAtIndex", 
-//"addAtHead"]
-//[[], [5], [2], [1], [1, 9], [4], [9], [8], [3], [1], [3, 6], [3]]
-TEST_CASE("MyLinkedList", "[single-file]")
+TEST_CASE("MinStack", "[single-file]")
 {
-	MyLinkedList linkedList;
-	linkedList.addAtHead(5);
-	linkedList.addAtHead(2);
-	linkedList.deleteAtIndex(1);
+	//generate(5);
+	getRow(3);
+	//MinStack minStack;
+	//minStack.push(2);
+	//minStack.push(0);
+	//minStack.push(3);
+	//minStack.push(0);
+	//minStack.print();
 
-	linkedList.addAtIndex(1, 9);
+	//CHECK(minStack.getMin() == 0);
+	//minStack.pop();
+	//minStack.print();
 
-	linkedList.addAtHead(4);
-	linkedList.addAtHead(9);
-	linkedList.addAtHead(8);
+	//CHECK(minStack.getMin() == 0);
+	//minStack.pop();
+	//minStack.print();
 
-	linkedList.get(3);
-	linkedList.addAtTail(1);
-	linkedList.addAtIndex(3, 6);
-	linkedList.addAtHead(3);
-	linkedList.print();
+	//CHECK(minStack.getMin() == 0);
+	//minStack.pop();
+	//minStack.print();
+
+	//CHECK(minStack.getMin() == 2);
+	//minStack.print();
 }
-
-
 #endif // !TEST_ALL
