@@ -1192,7 +1192,7 @@ class MyLinkedList
 {
 public:
 	/** Initialize your data structure here. */
-	MyLinkedList() 
+	MyLinkedList()
 	{
 		head = new LNode(0);
 		tail = head;
@@ -1222,11 +1222,11 @@ public:
 	}
 
 	/** Get the value of the index-th node in the linked list. If the index is invalid, return -1. */
-	int get(int index) 
+	int get(int index)
 	{
 		if (index <0 || index > length - 1)
 			return -1;
-	
+
 		LNode* p = head;
 		while (index >= 0)
 		{
@@ -1252,7 +1252,7 @@ public:
 	}
 
 	/** Append a node of value val to the last element of the linked list. */
-	void addAtTail(int val) 
+	void addAtTail(int val)
 	{
 		LNode* p = new LNode(val);
 		tail->next = p;
@@ -1291,7 +1291,7 @@ public:
 	/** Delete the index-th node in the linked list, if the index is valid. */
 	void deleteAtIndex(int index)
 	{
-		if (index <0 || index >= length)
+		if (index < 0 || index >= length)
 			return;
 
 		LNode* p = head;
@@ -1333,7 +1333,7 @@ vector<int> plusOne(vector<int>& digits)
 		result[i] = s % 10;
 		carry = s / 10;
 	}
-	if (carry != 0) 
+	if (carry != 0)
 		result.insert(result.begin(), carry);
 	return result;
 }
@@ -1499,7 +1499,7 @@ vector<vector<int>> generate(int n)
 			result.push_back(vector<int>{1, 1});
 		else
 		{
-			vector<int> line(i+1, 1);
+			vector<int> line(i + 1, 1);
 			for (int j = 1; j < i; j++)
 			{
 				line[j] = result[i - 1][j - 1] + result[i - 1][j];
@@ -1535,3 +1535,273 @@ bool isBalanced(TreeNode* root)
 	int r = height(root->right);
 	return abs(l - r) <= 1 && isBalanced(root->left) && isBalanced(root->right);
 }
+
+vector<int> leaf_sequence(TreeNode* root)
+{
+	if (root == nullptr) return vector<int>();
+	else if (!root->left && !root->right) return vector<int>(root->val);
+	else
+	{
+		auto l = leaf_sequence(root->left);
+		auto r = leaf_sequence(root->right);
+		l.insert(l.end(), r.begin(), r.end());
+		return l;
+	}
+}
+
+bool leafSimilar(TreeNode* root1, TreeNode* root2)
+{
+	auto l = leaf_sequence(root1);
+	auto r = leaf_sequence(root1);
+	if (l.size() != r.size()) return false;
+	for (int i = 0; i < l.size(); i++)
+		if (l[i] != r[i]) return false;
+	return true;
+}
+
+#include <queue>
+
+class MyStack
+{
+public:
+	/** Initialize your data structure here. */
+	MyStack()
+	{
+		use = 1;
+	}
+
+	/** Push element x onto stack. */
+	void push(int x)
+	{
+		if (use == 1)
+		{
+			q1.push(x);
+		}
+		else
+		{
+			q2.push(x);
+		}
+	}
+
+	/** Removes the element on top of the stack and returns that element. */
+	int pop()
+	{
+		if (empty())
+			return 0;
+		if (use == 1)
+		{
+			while (q1.size() > 1)
+			{
+				q2.push(q1.front());
+				q1.pop();
+			}
+			auto itop = q1.front();
+			q1.pop();
+			use = 2;
+			return itop;
+		}
+		else
+		{
+			while (q2.size() > 1)
+			{
+				q1.push(q2.front());
+				q2.pop();
+			}
+			auto itop = q2.front();
+			q2.pop();
+			use = 1;
+			return itop;
+		}
+		return 0;
+	}
+
+	/** Get the top element. */
+	int top()
+	{
+		if (empty())
+			return 0;
+		if (use == 1)
+		{
+			while (q1.size() > 1)
+			{
+				q2.push(q1.front());
+				q1.pop();
+			}
+			auto itop = q1.front();
+			q2.push(q1.front());
+			q1.pop();
+			use = 2;
+			return itop;
+		}
+		else
+		{
+			while (q2.size() > 1)
+			{
+				q1.push(q2.front());
+				q2.pop();
+			}
+			auto itop = q2.front();
+			q1.push(q2.front());
+			q2.pop();
+			use = 1;
+			return itop;
+		}
+		return 0;
+	}
+
+	/** Returns whether the stack is empty. */
+	bool empty()
+	{
+		return (q1.empty() && q2.empty());
+	}
+
+private:
+	queue<int>	q1;
+	queue<int>	q2;
+	int use;
+};
+
+
+class MyQueue
+{
+public:
+	/** Initialize your data structure here. */
+	MyQueue()
+	{
+	}
+
+	/** Push element x to the back of queue. */
+	void push(int x)
+	{
+		s1.push(x);
+	}
+
+	/** Removes the element from in front of queue and returns that element. */
+	int pop()
+	{
+		if (empty()) return 0;
+
+		if (!s2.empty())
+		{
+			auto top = s2.top();
+			s2.pop();
+			return top;
+		}
+		else
+		{
+			while (!s1.empty())
+			{
+				auto top = s1.top();
+				s2.push(top);
+				s1.pop();
+			}
+			auto top = s2.top();
+			s2.pop();
+			return top;
+		}
+	}
+
+	/** Get the front element. */
+	int peek()
+	{
+		if (empty()) return 0;
+
+		if (!s2.empty())
+		{
+			auto top = s2.top();
+			return top;
+		}
+		else
+		{
+			while (!s1.empty())
+			{
+				auto top = s1.top();
+				s2.push(top);
+				s1.pop();
+			}
+			auto top = s2.top();
+			return top;
+		}
+	}
+
+	/** Returns whether the queue is empty. */
+	bool empty()
+	{
+		return s1.empty() && s2.empty();
+	}
+
+private:
+	stack<int>	s1;
+	stack<int>	s2;
+};
+
+
+class MyCircularQueue
+{
+public:
+	/** Initialize your data structure here. Set the size of the queue to be k. */
+	MyCircularQueue(int k)
+	{
+		que.resize(k + 1);
+		front = 0;
+		rear = 0;
+		size = k;
+	}
+
+	/** Insert an element into the circular queue. Return true if the operation is successful. */
+	bool enQueue(int value)
+	{
+		if (isFull()) return false;
+		else
+		{
+			que[rear] = value;
+			rear = (rear + 1) % (size + 1);
+			return true;
+		}
+	}
+
+	/** Delete an element from the circular queue. Return true if the operation is successful. */
+	bool deQueue()
+	{
+		if (isEmpty()) return false;
+		else
+		{
+			front = (front + 1) % (size + 1);
+			return true;
+		}
+	}
+
+	/** Get the front item from the queue. */
+	int Front()
+	{
+		if (isEmpty()) return -1;
+		else
+			return que[(front) % (size + 1)];
+	}
+
+	/** Get the last item from the queue. */
+	int Rear()
+	{
+		if (isEmpty()) return -1;
+		else
+			return que[(rear + size) % (size + 1)];
+	}
+
+	/** Checks whether the circular queue is empty or not. */
+	bool isEmpty()
+	{
+		return front == rear;
+	}
+
+	/** Checks whether the circular queue is full or not. */
+	bool isFull()
+	{
+		return front == ((rear + 1) % (size + 1));
+	}
+
+private:
+	vector<int> que;
+	int front;
+	int rear;
+	int size;
+};

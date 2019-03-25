@@ -259,103 +259,21 @@ TEST_CASE("MyLinkedList", "[single-file]")
 
 #else
 
-//TEST_CASE("isNumber", "[single-file]")
-//{
-//	CHECK(isNumber("0"));
-//	CHECK(isNumber(" 0.1 "));
-//	CHECK(!isNumber("abc"));
-//	CHECK(!isNumber("1 a"));
-//	CHECK(isNumber("2e10"));
-//	CHECK(isNumber(" -90e3   "));
-//	CHECK(!isNumber(" 1e"));
-//	CHECK(!isNumber("e3"));
-//	CHECK(isNumber(" 6e-1"));
-//	CHECK(isNumber(" 99e2.5 "));
-//	CHECK(isNumber("53.5e93"));
-//	CHECK(!isNumber(" --6 "));
-//	CHECK(!isNumber("-+3"));
-//	CHECK(!isNumber("95a54e53"));
-//}
-
-
-//string parse_blank(string s)
-//{
-//	int i = 0;
-//	int j = s.length() - 1;
-//	while (i < s.length() && s[i] == ' ')i++;
-//	while (j >= 0 && s[j] == ' ')j--;
-//	if (i > j)
-//		return "";
-//	else
-//		return s.substr(i, j - i + 1);
-//}
-//
-//bool parse_digit(string s)
-//{
-//	int digit = -1;
-//	for (int i = 0; i < s.length(); i++)
-//	{
-//		if (s[i] >= '0' && s[i] <= '9')
-//			continue;
-//		else if (digit < 0 && s[i] == '.')
-//			digit = i;
-//		else
-//			return false;
-//	}
-//	if (digit == 0 || digit == s.length() - 1)
-//		return false;
-//	else
-//		return true;
-//}
-//
-//TEST_CASE("isNumber", "[single-file]")
-//{
-//	CHECK(parse_blank("a") == "a");
-//	CHECK(parse_blank(" a") == "a");
-//	CHECK(parse_blank("a e ") == "a e");
-//	CHECK(parse_blank("   a") == "a");
-//	CHECK(parse_blank("   a   ") == "a");
-//	CHECK(parse_blank("  ") == "");
-//	CHECK(parse_blank("") == "");
-//
-//	CHECK(parse_digit("0.1"));
-//	CHECK(!parse_digit("0..2"));
-//	CHECK(!parse_digit("2."));
-//	CHECK(!parse_digit(".2"));
-//}
-
-//Input:
-//["MinStack", "push", "push", "push", "push", "getMin", "pop", "getMin", "pop", "getMin", "pop", "getMin"]
-//[[], [2], [0], [3], [0], [], [], [], [], [], [], []]
-//Output :
-//[null, null, null, null, null, 0, null, 0, null, 0, null, 0]
-//Expected :
-//[null, null, null, null, null, 0, null, 0, null, 0, null, 2]
-
-TEST_CASE("MinStack", "[single-file]")
+TEST_CASE("MyCircularQueue", "[single-file]")
 {
-	//generate(5);
-	getRow(3);
-	//MinStack minStack;
-	//minStack.push(2);
-	//minStack.push(0);
-	//minStack.push(3);
-	//minStack.push(0);
-	//minStack.print();
+	MyCircularQueue circularQueue(3); // set the size to be 3
+	CHECK(circularQueue.enQueue(2));
+	CHECK(circularQueue.Rear() == 2);
+	CHECK(circularQueue.Front() == 2);
+	CHECK(circularQueue.deQueue());
 
-	//CHECK(minStack.getMin() == 0);
-	//minStack.pop();
-	//minStack.print();
+	CHECK(circularQueue.Front()==-1);
+	CHECK(!circularQueue.deQueue());
+	CHECK(circularQueue.Front() == -1);
+	CHECK(circularQueue.enQueue(4));
 
-	//CHECK(minStack.getMin() == 0);
-	//minStack.pop();
-	//minStack.print();
-
-	//CHECK(minStack.getMin() == 0);
-	//minStack.pop();
-	//minStack.print();
-
-	//CHECK(minStack.getMin() == 2);
-	//minStack.print();
+	CHECK(circularQueue.enQueue(2));
+	CHECK(circularQueue.enQueue(2));
+	CHECK(!circularQueue.enQueue(3));
 }
 #endif // !TEST_ALL
