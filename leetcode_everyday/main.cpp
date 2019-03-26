@@ -256,9 +256,6 @@ TEST_CASE("MyLinkedList", "[single-file]")
 	linkedList.addAtHead(3);
 	linkedList.print();
 }
-
-#else
-
 TEST_CASE("MyCircularQueue", "[single-file]")
 {
 	MyCircularQueue circularQueue(3); // set the size to be 3
@@ -276,4 +273,15 @@ TEST_CASE("MyCircularQueue", "[single-file]")
 	CHECK(circularQueue.enQueue(2));
 	CHECK(!circularQueue.enQueue(3));
 }
+#else
+
+TEST_CASE("findMin", "[single-file]")
+{
+	CHECK(1 == findMin(vector<int>{3, 4, 5, 1, 2}));
+	CHECK(0 == findMin(vector<int>{4, 5, 6, 7, 0, 1, 2}));
+	CHECK(1 == findMin(vector<int>{1, 2, 3, 4, 5}));
+	CHECK(1 == findMin(vector<int>{2, 1}));
+	CHECK(1 == findMin(vector<int>{3, 1, 2}));
+}
+
 #endif // !TEST_ALL

@@ -1805,3 +1805,49 @@ private:
 	int rear;
 	int size;
 };
+
+
+int numFriendRequests(vector<int>& ages)
+{
+	vector<int> count(121, 0);
+
+	for (auto age : ages)
+		count[age]++;
+
+	int ans = 0;
+	for (int ageA = 0; ageA <= 120; ageA++)
+	{
+		int countA = count[ageA];
+		for (int ageB = 0; ageB <= 120; ageB++)
+		{
+			int countB = count[ageB];
+			if (ageA * 0.5 + 7 >= ageB) continue;
+			if (ageA < ageB) continue;
+			if (ageA < 100 && 100 < ageB) continue;
+			ans += countA * countB;
+			if (ageA == ageB) ans -= countA;
+		}
+	}
+
+	return ans;
+}
+
+
+int findMin_helper(vector<int>& nums, int l, int r)
+{
+	if (l == r)
+		return nums[l];
+	if (nums[l] < nums[r])
+		return nums[l];
+
+	int mid = (l + r) / 2;
+	if (nums[l] > nums[mid])
+		return findMin_helper(nums, l, mid);
+	return findMin_helper(nums, mid + 1, r);
+}
+
+int findMin(vector<int> nums)
+{
+	return findMin_helper(nums, 0, nums.size() - 1);
+}
+
