@@ -1851,3 +1851,99 @@ int findMin(vector<int> nums)
 	return findMin_helper(nums, 0, nums.size() - 1);
 }
 
+int maxArea(vector<int> height)
+{
+	int result = 0;
+	// 1, 8, 6, 2, 5, 4, 8, 3, 7
+	int i = 0;
+	int j = height.size() - 1;
+	while (i < j)
+	{
+		int h = height[i] < height[j] ? height[i] : height[j];
+		if (result < h*(j - i)) result = h * (j - i);
+
+		height[i] < height[j] ? i++ : j--;
+	}
+	return result;
+}
+
+vector<vector<int> > threeSum(vector<int> &num) {
+
+	vector<vector<int> > res;
+
+	std::sort(num.begin(), num.end());
+
+	for (int i = 0; i < num.size(); i++) {
+
+		int target = -num[i];
+		int front = i + 1;
+		int back = num.size() - 1;
+
+		while (front < back) {
+
+			int sum = num[front] + num[back];
+
+			// Finding answer which start from number num[i]
+			if (sum < target)
+				front++;
+
+			else if (sum > target)
+				back--;
+
+			else {
+				vector<int> triplet(3, 0);
+				triplet[0] = num[i];
+				triplet[1] = num[front];
+				triplet[2] = num[back];
+				res.push_back(triplet);
+
+				// Processing duplicates of Number 2
+				// Rolling the front pointer to the next different number forwards
+				while (front < back && num[front] == triplet[1]) front++;
+
+				// Processing duplicates of Number 3
+				// Rolling the back pointer to the next different number backwards
+				while (front < back && num[back] == triplet[2])  back--;
+			}
+
+		}
+
+		// Processing duplicates of Number 1
+		while (i + 1 < num.size() && num[i + 1] == num[i])
+			i++;
+
+	}
+
+	return res;
+
+}
+
+int threeSumClosest(vector<int> nums, int target)
+{
+	sort(nums.begin(), nums.end());
+	int abs_diff = numeric_limits<int>::max();
+	if (nums.size() < 3) return 0;
+	int result = nums[0] + nums[1] + nums[2];
+	for (int i = 0; i < nums.size(); i++)
+	{
+		int front = i + 1;
+		int back = nums.size() - 1;
+		while (front < back)
+		{
+			auto sum = target - nums[i];
+			if (abs_diff > abs(sum - nums[front] - nums[back]))
+			{
+				abs_diff = abs(sum - nums[front] - nums[back]);
+				result = nums[i] + nums[front] + nums[back];
+			}
+			if (sum > nums[front] + nums[back])
+				front++;
+			else if (sum < nums[front] + nums[back])
+				back--;
+			else
+				return target;
+		}
+	}
+	return result;
+}
+
