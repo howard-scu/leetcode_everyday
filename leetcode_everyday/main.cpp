@@ -289,12 +289,23 @@ TEST_CASE("maxArea", "[single-file]")
 	CHECK(49 == maxArea(vector<int>{1, 8, 6, 2, 5, 4, 8, 3, 7}));
 }
 
-#else
-
 TEST_CASE("threeSumClosest", "[single-file]")
 {
 	CHECK(2 == threeSumClosest(vector<int>{-1, 2, 1, -4}, 1));
 	CHECK(3 == threeSumClosest(vector<int>{0, 1, 2}, 3));
 }
 
+TEST_CASE("fourSum", "[single-file]")
+{
+	fourSum(vector<int>{1, 0, -1, 0, -2, 2}, 0);
+}
+#else
+
+TEST_CASE("search", "[single-file]")
+{
+	CHECK(4 == search(vector<int>{4, 5, 6, 7, 0, 1, 2}, 0));
+	CHECK(-1 == search(vector<int>{4, 5, 6, 7, 0, 1, 2}, 3));
+	CHECK(-1 == search(vector<int>{1, 3}, 0));
+	CHECK(-1 == search(vector<int>{1, 3}, 4));
+}
 #endif // !TEST_ALL
