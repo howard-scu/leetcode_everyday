@@ -299,7 +299,6 @@ TEST_CASE("fourSum", "[single-file]")
 {
 	fourSum(vector<int>{1, 0, -1, 0, -2, 2}, 0);
 }
-#else
 
 TEST_CASE("search", "[single-file]")
 {
@@ -308,4 +307,17 @@ TEST_CASE("search", "[single-file]")
 	CHECK(-1 == search(vector<int>{1, 3}, 0));
 	CHECK(-1 == search(vector<int>{1, 3}, 4));
 }
+
+#else
+
+TEST_CASE("isAnagram", "[single-file]")
+{
+	CHECK(isAnagram("anagram", "nagaram"));
+	CHECK(!isAnagram("nan", "naa"));
+	CHECK(isAnagram("tar", "rat"));
+	CHECK(!isAnagram("tat", "rat"));
+	CHECK(!isAnagram("b", "a"));
+}
+
+
 #endif // !TEST_ALL

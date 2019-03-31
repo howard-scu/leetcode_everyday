@@ -2017,3 +2017,72 @@ int search(vector<int> nums, int target)
 	}
 	return -1;
 }
+
+
+vector<int> sortArrayByParityII(vector<int> A)
+{
+	int i = 0;
+	int j = A.size() - 1;
+
+	while (i < A.size() && j >= 0)
+	{
+		while ((i < A.size()) && (i % 2 == 0) && (A[i] % 2 == 0))
+			i += 2;
+		while ((j >= 0) && (j % 2 == 1) && (A[j] % 2 == 1))
+			j -= 2;
+		if ((i < A.size()) && (j >= 0))
+		{
+			swap(A[i], A[j]);
+			i += 2;
+			j -= 2;
+		}
+	}
+	return A;
+}
+
+//bool isAnagram(string s, string t)
+//{
+//	if (s.length() != t.length()) return false;
+//	unordered_map<char, int> cmap;
+//	for (int i = 0; i < s.length(); i++)
+//	{
+//		if (cmap[s[i]] == 0) cmap[s[i]] = 1;
+//		else cmap[s[i]]++;
+//	}
+//	for (int i = 0; i < t.length(); i++)
+//	{
+//		if (cmap[t[i]] == 0) return false;
+//		else cmap[t[i]]--;
+//	}
+//	auto it = cmap.begin();
+//	while (it != cmap.end())
+//	{
+//		if (it->second != 0)
+//			return false;
+//		++it;
+//	}
+//	return true;
+//}
+
+
+bool isAnagram(string s, string t)
+{
+	if (s.length() != t.length()) return false;
+	unordered_map<char, int> cmap;
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (cmap[s[i]] == 0) cmap[s[i]] = 1;
+		else cmap[s[i]]++;
+		if (cmap[t[i]] == 0) cmap[t[i]] = -1;
+		else cmap[t[i]]--;
+	}
+
+	auto it = cmap.begin();
+	while (it != cmap.end())
+	{
+		if (it->second != 0)
+			return false;
+		++it;
+	}
+	return true;
+}
