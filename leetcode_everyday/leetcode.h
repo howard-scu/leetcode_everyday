@@ -1867,7 +1867,7 @@ int maxArea(vector<int> height)
 	return result;
 }
 
-vector<vector<int> > threeSum(vector<int> &num) 
+vector<vector<int> > threeSum(vector<int> &num)
 {
 
 	vector<vector<int> > res;
@@ -1881,7 +1881,7 @@ vector<vector<int> > threeSum(vector<int> &num)
 		int front = i + 1;
 		int back = num.size() - 1;
 
-		while (front < back) 
+		while (front < back)
 		{
 
 			int sum = num[front] + num[back];
@@ -2016,4 +2016,77 @@ int search(vector<int> nums, int target)
 		size = (r - l + n + 1) % n;
 	}
 	return -1;
+}
+
+vector<int> sortedSquares(vector<int>& nums)
+{
+	// std::for_each(nums.begin(), nums.end(), [](int &n){ n = abs(n); n*=n;});
+	// sort(nums.begin(),nums.end());
+	// return nums;
+	vector<int> res(nums.size());
+	int i = 0;
+	int j = nums.size() - 1;
+	int t = nums.size() - 1;
+	while (i <= j)
+	{
+		if (abs(nums[i]) >= abs(nums[j]))
+		{
+			res[t] = nums[i] * nums[i];
+			i++;
+			t--;
+		}
+		else
+		{
+			res[t] = nums[j] * nums[j];
+			j--;
+			t--;
+		}
+	}
+	return res;
+}
+
+vector<int> sortArrayByParity(vector<int>& nums)
+{
+	int i = 0;
+	int j = nums.size() - 1;
+	while (i < j)
+	{
+		while (i < j && nums[i] % 2 == 0) i++;
+		while (i < j && nums[j] % 2 == 1) j--;
+		swap(nums[i++], nums[j--]);
+	}
+	return nums;
+}
+
+
+vector<vector<int>> flipAndInvertImage(vector<vector<int>>& A)
+{
+	vector<vector<int>> result;
+	int n = A[0].size();
+	for (int i = 0; i < A.size(); i++)
+	{
+		vector<int> line(A[0].size());
+		for (int j = 0; j < A[0].size(); j++)
+		{
+			line[j] = 0x1 & (~A[i][n - j - 1]);
+		}
+		result.push_back(line);
+	}
+	return result;
+}
+
+vector<vector<int>> transpose(vector<vector<int>>& A) 
+{
+	vector<vector<int>> result;
+	int n = A[0].size();
+	for (int i = 0; i < A[0].size(); i++)
+	{
+		vector<int> line(A.size());
+		for (int j = 0; j < A.size(); j++)
+		{
+			line[j] = A[j][i];
+		}
+		result.push_back(line);
+	}
+	return result;
 }
