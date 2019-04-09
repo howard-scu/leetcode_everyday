@@ -2157,3 +2157,85 @@ bool isAnagram(string s, string t)
 	}
 	return true;
 }
+
+void inorderTraversal_helper(TreeNode* root,vector<int>& result)
+{
+	if (root == nullptr) return;
+	else
+	{
+		inorderTraversal_helper(root->left, result);
+		result.push_back(root->val);
+		inorderTraversal_helper(root->right, result);
+	}
+}
+vector<int> inorderTraversal(TreeNode* root)
+{
+	vector<int> result;
+	inorderTraversal_helper(root, result);
+	return result;
+}
+
+void preorderTraversal_helper(TreeNode* root, vector<int>& result)
+{
+	if (root == nullptr) return;
+	else
+	{
+		result.push_back(root->val);
+		preorderTraversal_helper(root->left, result);
+		preorderTraversal_helper(root->right, result);
+	}
+}
+
+vector<int> preorderTraversal(TreeNode* root)
+{
+	vector<int> result;
+	preorderTraversal_helper(root, result);
+	return result;
+}
+
+class BSTIterator 
+{
+public:
+	BSTIterator(TreeNode* root) 
+	{
+		addTree(root);
+	}
+
+	/** @return the next smallest number */
+	int next() 
+	{
+		if (!tStack.empty()) 
+		{
+			auto top = tStack.top();
+			tStack.pop();
+			addTree(top->right);
+			return top->val;
+		}
+	}
+
+	/** @return whether we have a next smallest number */
+	bool hasNext() 
+	{
+		return !tStack.empty();
+	}
+private:
+	void addTree(TreeNode* root)
+	{
+		if (root == nullptr)
+			return;
+		else
+		{
+			auto p = root;
+			while (p)
+			{
+				tStack.push(p);
+				p = p->left;
+			}
+		}
+	}
+	TreeNode *			tRoot;
+	stack<TreeNode*>	tStack;
+};
+
+
+

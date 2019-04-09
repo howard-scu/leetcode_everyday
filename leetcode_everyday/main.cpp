@@ -308,8 +308,6 @@ TEST_CASE("search", "[single-file]")
 	CHECK(-1 == search(vector<int>{1, 3}, 4));
 }
 
-#else
-
 TEST_CASE("isAnagram", "[single-file]")
 {
 	CHECK(isAnagram("anagram", "nagaram"));
@@ -318,6 +316,30 @@ TEST_CASE("isAnagram", "[single-file]")
 	CHECK(!isAnagram("tat", "rat"));
 	CHECK(!isAnagram("b", "a"));
 }
+
+TEST_CASE("inorderTraversal", "[single-file]")
+{
+	auto t1 = stringToTreeNode("[1,null,2,3]");
+	auto out1 = inorderTraversal(t1);
+	CHECK(vector<int>{1, 3, 2} == out1);
+}
+
+TEST_CASE("BSTIterator", "[single-file]")
+{
+	auto root = stringToTreeNode("[7,3,15,null,null,9,20]");
+	BSTIterator* obj = new BSTIterator(root);
+	CHECK(obj->next() == 3);
+	CHECK(obj->next() == 7);
+	CHECK(obj->hasNext());
+	CHECK(obj->next() == 9);
+	CHECK(obj->hasNext());
+	CHECK(obj->next() == 15);
+	CHECK(obj->hasNext());
+	CHECK(obj->next() == 20);
+	CHECK(!obj->hasNext());
+}
+
+#else
 
 
 #endif // !TEST_ALL
