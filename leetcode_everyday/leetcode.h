@@ -2238,4 +2238,63 @@ private:
 };
 
 
+TreeNode* newroot, *curr;
+TreeNode * increasingBST(TreeNode* root)
+{
+	if (root == NULL) return NULL;
+	increasingBST(root->left);
 
+	if (newroot == NULL) {
+		newroot = new TreeNode(root->val);
+		curr = newroot;
+	}
+	else {
+		curr->right = new TreeNode(root->val);
+		curr = curr->right;
+	}
+
+	increasingBST(root->right);
+	return newroot;
+}
+
+int rob(vector<int>& nums)
+{
+	if (nums.size() == 0)return 0;
+	if (nums.size() == 1)return nums[0];
+
+	vector<int> dp(nums.size(), 0);
+	dp[0] = nums[0];
+	dp[1] = nums[0] > nums[1] ? nums[0] : nums[1];
+	int ans = dp[1];
+	for (int i = 2; i<nums.size(); i++)
+	{
+		auto r1 = dp[i - 2] + nums[i];
+		auto r2 = dp[i - 1];
+
+		dp[i] = max(r1, r2);
+		if (ans < dp[i])
+			ans = dp[i];
+	}
+	return ans;
+}
+
+int rob_helper(vector<int>& nums, int lo, int hi)
+{
+	int include = 0, exclude = 0;
+	for (int j = lo; j <= hi; j++)
+	{
+		int i = include, e = exclude;
+		include = e + nums[j];
+		exclude = max(e, i);
+	}
+	return max(include, exclude);
+}
+int rob2(vector<int>& nums)
+{
+	if (nums.size() == 0) return 0;
+	if (nums.size() == 1) return nums[0];
+	return max(
+		rob_helper(nums, 0, nums.size() - 2),
+		rob_helper(nums, 1, nums.size() - 1)
+	);
+}
