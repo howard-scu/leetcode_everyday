@@ -2158,7 +2158,7 @@ bool isAnagram(string s, string t)
 	return true;
 }
 
-void inorderTraversal_helper(TreeNode* root,vector<int>& result)
+void inorderTraversal_helper(TreeNode* root, vector<int>& result)
 {
 	if (root == nullptr) return;
 	else
@@ -2193,18 +2193,18 @@ vector<int> preorderTraversal(TreeNode* root)
 	return result;
 }
 
-class BSTIterator 
+class BSTIterator
 {
 public:
-	BSTIterator(TreeNode* root) 
+	BSTIterator(TreeNode* root)
 	{
 		addTree(root);
 	}
 
 	/** @return the next smallest number */
-	int next() 
+	int next()
 	{
-		if (!tStack.empty()) 
+		if (!tStack.empty())
 		{
 			auto top = tStack.top();
 			tStack.pop();
@@ -2214,7 +2214,7 @@ public:
 	}
 
 	/** @return whether we have a next smallest number */
-	bool hasNext() 
+	bool hasNext()
 	{
 		return !tStack.empty();
 	}
@@ -2266,7 +2266,7 @@ int rob(vector<int>& nums)
 	dp[0] = nums[0];
 	dp[1] = nums[0] > nums[1] ? nums[0] : nums[1];
 	int ans = dp[1];
-	for (int i = 2; i<nums.size(); i++)
+	for (int i = 2; i < nums.size(); i++)
 	{
 		auto r1 = dp[i - 2] + nums[i];
 		auto r2 = dp[i - 1];
@@ -2297,4 +2297,139 @@ int rob2(vector<int>& nums)
 		rob_helper(nums, 0, nums.size() - 2),
 		rob_helper(nums, 1, nums.size() - 1)
 	);
+}
+
+
+vector<int> preorder(Node* root)
+{
+	vector<int> result;
+	stack<Node*> ns;
+	if (root != nullptr)	ns.push(root);
+	while (!ns.empty())
+	{
+		auto node = ns.top();
+		ns.pop();
+		result.push_back(node->val);
+		// 注意同一层要从最后开始入栈
+		for (int i = node->children.size() - 1; i >= 0; i--)
+		{
+			ns.push(node->children[i]);
+		}
+	}
+	return result;
+}
+
+
+void postorder_helper(Node* root, vector<int>& result)
+{
+	if (root == nullptr) return;
+	for (int i = 0; i < root->children.size(); i++)
+	{
+		postorder_helper(root->children[i], result);
+	}
+	result.push_back(root->val);
+}
+
+vector<int> postorder(Node* root)
+{
+	vector<int> result;
+	postorder_helper(root, result);
+	return result;
+}
+
+
+vector<vector<int>> levelOrder(Node* root)
+{
+	vector<vector<int>> result;
+	queue<Node*> nq;
+	if (root != nullptr)	nq.push(root);
+	while (!nq.empty())
+	{
+		int size = nq.size();
+		vector<int> curLevel;
+		// 这个是最关键操作
+		for (int i = 0; i < size; i++)
+		{
+			Node* tmp = nq.front();
+			nq.pop();
+			curLevel.push_back(tmp->val);
+			for (auto n : tmp->children)
+				nq.push(n);
+		}
+		result.push_back(curLevel); // Store the current level values to res.
+	}
+	return result;
+}
+
+vector<vector<int>> levelOrderBottom(TreeNode* root)
+{
+	vector<vector<int>> result;
+	queue<TreeNode*>    nq;
+	if (root == nullptr) return result;
+	nq.push(root);
+
+	while (!nq.empty())
+	{
+		int size = nq.size();
+		vector<int> row;
+		for (int i = 0; i < size; i++)
+		{
+			auto node = nq.front();
+			nq.pop();
+			row.push_back(node->val);
+			if (node->left)     nq.push(node->left);
+			if (node->right)    nq.push(node->right);
+		}
+		result.push_back(row);
+	}
+	reverse(result.begin(), result.end());
+	return result;
+}
+
+TreeNode* addOneRow(TreeNode* root, int v, int d)
+{
+	queue<TreeNode*>		nq;
+	if (root == nullptr)	return new TreeNode(v);
+
+	nq.push(root);
+	int level = 1;
+
+	if (d == 1)
+	{
+		auto new_node = new TreeNode(v);
+		new_node->left = root;
+		return new_node;
+	}
+
+	while (!nq.empty())
+	{
+		int n = nq.size();
+		bool flag = false;
+		for (int i = 0; i < n; i++)
+		{
+			auto node = nq.front();
+			nq.pop();
+
+			if (level == d - 1)
+			{
+				flag = true;
+
+				auto new_node1 = new TreeNode(v);
+				new_node1->left = node->left;
+				node->left = new_node1;
+
+				auto new_node2 = new TreeNode(v);
+				new_node2->right = node->right;
+				node->right = new_node2;
+			}
+			else
+			{
+				if (node->left)  nq.push(node->left);
+				if (node->right) nq.push(node->right);
+			}
+		}
+		if (flag) break;
+		level++;
+	}
+	return root;
 }

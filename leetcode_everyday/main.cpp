@@ -341,5 +341,9 @@ TEST_CASE("BSTIterator", "[single-file]")
 
 #else
 
-
+TEST_CASE("addOneRow", "[single-file]")
+{
+	auto root = stringToTreeNode("[4,2,6,3,1,5]");
+	cout << treeNodeToString(addOneRow(root, 1, 1)) << endl;
+}
 #endif // !TEST_ALL
