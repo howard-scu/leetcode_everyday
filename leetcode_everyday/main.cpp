@@ -341,9 +341,13 @@ TEST_CASE("BSTIterator", "[single-file]")
 
 #else
 
-TEST_CASE("addOneRow", "[single-file]")
-{
-	auto root = stringToTreeNode("[4,2,6,3,1,5]");
-	cout << treeNodeToString(addOneRow(root, 1, 1)) << endl;
-}
+//TEST_CASE("commonChars", "[single-file]")
+//{
+//	vector<string> ss = {
+//		"acabcddd", "bcbdbcbd", "baddbadb", "cbdddcac", "aacbcccd", "ccccddda", "cababaab", "addcaccd"
+//	};
+//	vector<string> ans = commonChars(ss);
+//	for (auto s : ans)
+//		cout << s << endl;
+//}
 #endif // !TEST_ALL

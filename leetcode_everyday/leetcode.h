@@ -2433,3 +2433,43 @@ TreeNode* addOneRow(TreeNode* root, int v, int d)
 	}
 	return root;
 }
+
+
+int numJewelsInStones(string J, string S)
+{
+	int JArr[256] = { 0 };
+	for (auto c : J)
+		JArr[c] = 1;
+	int ans = 0;
+	for (auto c : S)
+		if (JArr[c] != 0)
+			ans++;
+	return ans;
+}
+
+//vector<string> commonChars(vector<string>& A)
+//{
+//	int cn[256] = { 0 };
+//	for (auto c : A[0])
+//		cn[c]++;
+//
+//	for (int i = 1; i < A.size(); i++)
+//	{
+//		for (auto c : A[i])
+//		{
+//			if(cn[c]!=0)
+//				cn[c]++;
+//		}
+//	}
+//
+//	vector<string> result;
+//	for (int i = 0; i < 256; i++)
+//	{
+//		if (cn[i] != 0)
+//			cout << string(1, char(i)) << " : " << cn[i] << endl;
+//		cn[i] /= A.size();
+//		for (int j = 0; j < cn[i]; j++)
+//			result.push_back(string(1,char(i)));
+//	}
+//	return result;
+//}
