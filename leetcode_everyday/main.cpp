@@ -339,15 +339,33 @@ TEST_CASE("BSTIterator", "[single-file]")
 	CHECK(!obj->hasNext());
 }
 
+
+TEST_CASE("commonChars", "[single-file]")
+{
+	vector<string> ss = {
+		"bbddabab","cbcddbdd","bbcadcab","dabcacad","cddcacbc","ccbdbcba","cbddaccc","accdcdbb"
+	};
+	vector<string> ans = commonChars(ss);
+	for (auto s : ans)
+		cout << s << endl;
+}
+TEST_CASE("removeOuterParentheses", "[single-file]")
+{
+	CHECK(removeOuterParentheses("(()())(())") == "()()()");
+	CHECK(removeOuterParentheses("(()())(())(()(()))") == "()()()()(())");
+	CHECK(removeOuterParentheses("()()") == "");
+}
+
 #else
 
-//TEST_CASE("commonChars", "[single-file]")
-//{
-//	vector<string> ss = {
-//		"acabcddd", "bcbdbcbd", "baddbadb", "cbdddcac", "aacbcccd", "ccccddda", "cababaab", "addcaccd"
-//	};
-//	vector<string> ans = commonChars(ss);
-//	for (auto s : ans)
-//		cout << s << endl;
-//}
+TEST_CASE("removeOuterParentheses", "[single-file]")
+{
+	CHECK(backspaceCompare("ab#c", "ad#c"));
+	CHECK(backspaceCompare("ab##", "c#d#"));
+	CHECK(backspaceCompare("a##c", "#a#c"));
+	CHECK(!backspaceCompare("a#c", "b"));
+}
+
+
+
 #endif // !TEST_ALL

@@ -2447,29 +2447,95 @@ int numJewelsInStones(string J, string S)
 	return ans;
 }
 
-//vector<string> commonChars(vector<string>& A)
-//{
-//	int cn[256] = { 0 };
-//	for (auto c : A[0])
-//		cn[c]++;
-//
-//	for (int i = 1; i < A.size(); i++)
-//	{
-//		for (auto c : A[i])
-//		{
-//			if(cn[c]!=0)
-//				cn[c]++;
-//		}
-//	}
-//
-//	vector<string> result;
-//	for (int i = 0; i < 256; i++)
-//	{
-//		if (cn[i] != 0)
-//			cout << string(1, char(i)) << " : " << cn[i] << endl;
-//		cn[i] /= A.size();
-//		for (int j = 0; j < cn[i]; j++)
-//			result.push_back(string(1,char(i)));
-//	}
-//	return result;
-//}
+vector<string> commonChars(vector<string>& A)
+{
+	int cn[26] = { 0 };
+	for (auto c : A[0])
+		cn[c - 'a']++;
+
+	for (int i = 1; i < A.size(); i++)
+	{
+		int cn_t[26] = { 0 };
+		for (auto c : A[i]) cn_t[c - 'a']++;
+		for (int j = 0; j < 26; j++)
+		{
+			if (cn[j] == 0 || cn_t[j] == 0)
+				cn[j] = 0;
+			else
+				cn[j] = cn[j] < cn_t[j] ? cn[j] : cn_t[j];
+		}
+	}
+	vector<string> result;
+	for (int i = 0; i < 26; i++)
+	{
+		cn[i] /= A.size();
+		for (int j = 0; j < cn[i]; j++)
+			result.push_back(string(1, char(i + 'a')));
+	}
+	return result;
+}
+
+string removeOuterParentheses(string S)
+{
+	string ans = "";
+	stack<char> cs;
+	int sign = 0;
+	for (auto c : S)
+	{
+		if (c == '(')
+			sign += 1;
+		else
+			sign -= 1;
+		cs.push(c);
+		if (sign == 0)
+		{
+			cs.pop();
+			string tmp = "";
+			while (cs.size() != 1)
+			{
+				tmp += cs.top();
+				cs.pop();
+			}
+			cs.pop();
+			reverse(tmp.begin(), tmp.end());
+			ans += tmp;
+		}
+	}
+	return ans;
+}
+
+bool backspaceCompare(string S, string T)
+{
+	stack<char> cs1, cs2;
+	for (auto c : S)
+	{
+		if (c != '#')
+			cs1.push(c);
+		else if(!cs1.empty())
+			cs1.pop();
+	}
+	for (auto c : T)
+	{
+		if (c != '#')
+			cs2.push(c);
+		else if (!cs2.empty())
+			cs2.pop();
+	}
+	if (cs1.size() != cs2.size())
+		return false;
+	else
+	{
+		while (!cs1.empty())
+		{
+			if (cs1.top() != cs2.top())return false;
+			cs1.pop();
+			cs2.pop();
+		}
+		return true;
+	}
+}
+
+bool isPalindrome(string s)
+{
+
+}
