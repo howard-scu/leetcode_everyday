@@ -356,8 +356,6 @@ TEST_CASE("removeOuterParentheses", "[single-file]")
 	CHECK(removeOuterParentheses("()()") == "");
 }
 
-#else
-
 TEST_CASE("removeOuterParentheses", "[single-file]")
 {
 	CHECK(backspaceCompare("ab#c", "ad#c"));
@@ -366,6 +364,11 @@ TEST_CASE("removeOuterParentheses", "[single-file]")
 	CHECK(!backspaceCompare("a#c", "b"));
 }
 
+TEST_CASE("buildTree", "[single-file]")
+{
+	CHECK("[3, 9, 20, null, null, 15, 7, null, null, null, null]" == treeNodeToString(buildTree(vector<int>{9, 3, 15, 20, 7}, vector<int>{9, 15, 7, 20, 3})));
+}
 
+#else
 
 #endif // !TEST_ALL

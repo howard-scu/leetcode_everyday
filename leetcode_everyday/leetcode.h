@@ -2535,7 +2535,79 @@ bool backspaceCompare(string S, string T)
 	}
 }
 
-bool isPalindrome(string s)
+class KthLargest
 {
+public:
 
+	KthLargest(int k, vector<int> nums)
+	{
+		size = k;
+		for (int i = 0; i < nums.size(); i++)
+		{
+			pq.push(nums[i]);
+			if (pq.size() > k)
+				pq.pop();
+		}
+	}
+
+	int add(int val)
+	{
+		pq.push(val);
+		if (pq.size() > size)
+			pq.pop();
+		return pq.top();
+	}
+private:
+	priority_queue<int, vector<int>, greater<int>> pq;
+	int size;
+};
+
+vector<vector<int>> zigzagLevelOrder(TreeNode* root)
+{
+	vector<vector<int>> ans;
+	queue<TreeNode*> nodeQue;
+	nodeQue.push(root);
+	int flag = 0;
+	while (!nodeQue.empty())
+	{
+		int n = nodeQue.size();
+		vector<int> row(n, 0);
+		for (int i = 0; i < n; i++)
+		{
+			auto t = nodeQue.front();
+			if (t->left)	nodeQue.push(t->left);
+			if (t->right)	nodeQue.push(t->right);
+			if (flag % 2 != 0)
+				row[n - i - 1] = t->val;
+			else
+				row[i] = t->val;
+		}
+		ans.push_back(row);
+		flag++;
+	}
+	return ans;
 }
+
+TreeNode* buildTree_helper(vector<int>& inorder, int li, int ri, vector<int>& postorder, int lp, int rp)
+{
+	if (rp < lp)  return nullptr;
+
+	auto root = new TreeNode(postorder[rp]);
+
+	// ÖÐÐòÕÒ¸ù
+	int  id = li;
+	for (; id <= ri; id++)
+		if (inorder[id] == root->val)
+			break;
+
+	int size = id - li;
+	root->left = buildTree_helper(inorder, li, id - 1, postorder, lp, lp + size - 1);
+	root->right = buildTree_helper(inorder, id + 1, rp, postorder, lp + size, rp - 1);
+	return root;
+}
+
+TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder)
+{
+	return buildTree_helper(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1);
+}
+
