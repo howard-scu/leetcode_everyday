@@ -2611,3 +2611,90 @@ TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder)
 	return buildTree_helper(inorder, 0, inorder.size() - 1, postorder, 0, postorder.size() - 1);
 }
 
+string toLowerCase(string str)
+{
+	char t = 'A' - 'a';
+	for (int i = 0; i < str.length(); i++)
+	{
+		if (str[i] >= 'A' && str[i] <= 'Z')
+		{
+			str[i] -= t;
+		}
+	}
+	return str;
+}
+
+
+int strStr(string h, string n)
+{
+	if (n.length() == 0) return 0;
+	int i, j;
+	for (i = 0; i < h.length(); i++)
+	{
+		for (j = 0; j < n.length(); j++)
+		{
+			if (i + j >= h.length() || h[i + j] != n[j])
+			{
+				break;
+			}
+		}
+		if (j == n.length()) return i;
+	}
+	return -1;
+}
+
+
+int uniqueMorseRepresentations(vector<string> words)
+{
+	vector<string> smap{ ".-", "-...", "-.-.", "-..", ".", "..-.", "--.", "....", "..",
+		".---", "-.-", ".-..", "--", "-.", "---", ".--.", "--.-", ".-.",
+		"...", "-", "..-", "...-", ".--", "-..-", "-.--", "--.." };
+	set<string> sset;
+	for (int i = 0; i < words.size(); i++)
+	{
+		string code = "";
+		for (int j = 0; j < words[i].length(); j++)
+		{
+			code += smap[words[i][j] - 'a'];
+		}
+		sset.insert(code);
+	}
+	return sset.size();
+}
+
+//int numUniqueEmails(vector<string> emails)
+//{
+//
+//}
+
+int findMinDifference(vector<string> timePoints)
+{
+	//vector<int> minute;
+	//for (auto t : timePoints)
+	//{
+	//	auto id = t.find(':');
+	//	minute.push_back(atoi(t.substr(0, id).c_str())*60+
+	//		atoi(t.substr(id + 1, t.length() - id).c_str()));
+	//}
+	//int min = std::numeric_limits<int>::max();
+	//for (int i = 0; i < minute.size(); i++)
+	//{
+	//	for (int j = i + 1; j < minute.size(); j++)
+	//	{
+	//		auto tmp = abs(minute[i] - minute[j]);
+	//		if (tmp > 12 * 60) tmp = 24 * 60 - tmp;
+	//		if (tmp < min) min = tmp;
+	//	}
+	//}
+	//return min;
+
+	int res = 24 * 60;
+	vector<int> temp(timePoints.size(), 0);
+	for (int i = 0; i < timePoints.size(); i++)
+		temp[i] = stoi(timePoints[i].substr(0, 2)) * 60 + stoi(timePoints[i].substr(3, 2));
+	sort(temp.begin(), temp.end());
+	temp.push_back(temp[0] + res);
+	for (int i = 1; i < temp.size(); i++)
+		res = min(res, temp[i] - temp[i - 1]);
+	return res;
+}

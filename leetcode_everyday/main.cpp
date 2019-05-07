@@ -368,7 +368,36 @@ TEST_CASE("buildTree", "[single-file]")
 {
 	CHECK("[3, 9, 20, null, null, 15, 7, null, null, null, null]" == treeNodeToString(buildTree(vector<int>{9, 3, 15, 20, 7}, vector<int>{9, 15, 7, 20, 3})));
 }
+TEST_CASE("toLowerCase", "[single-file]")
+{
+	CHECK("hello" == toLowerCase("Hello"));
+	CHECK("lovely" == toLowerCase("LOVELY"));
+}
+
+TEST_CASE("strStr", "[single-file]")
+{
+	CHECK(2 == strStr("hello", "ll"));
+	CHECK(-1 == strStr("aaaaa", "bba"));
+	CHECK(-1 == strStr("aaa", "aaaa"));
+}
+
+TEST_CASE("uniqueMorseRepresentations", "[single-file]")
+{
+	CHECK(2 == uniqueMorseRepresentations(vector<string>{"gin", "zen", "gig", "msg"}));
+}
 
 #else
 
+
+//TEST_CASE("uniqueMorseRepresentations", "[single-file]")
+//{
+//	CHECK(2 == numUniqueEmails(vector<string>{"test.email+alex@leetcode.com",
+//		"test.e.mail+bob.cathy@leetcode.com", 
+//		"testemail+david@lee.tcode.com"}));
+//}
+
+TEST_CASE("findMinDifference", "[single-file]")
+{
+	CHECK(1 == findMinDifference(vector<string>{"23:59","00:00"}));
+}
 #endif // !TEST_ALL
