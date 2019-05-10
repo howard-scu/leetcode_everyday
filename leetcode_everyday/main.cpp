@@ -386,6 +386,31 @@ TEST_CASE("uniqueMorseRepresentations", "[single-file]")
 	CHECK(2 == uniqueMorseRepresentations(vector<string>{"gin", "zen", "gig", "msg"}));
 }
 
+
+TEST_CASE("findMinDifference", "[single-file]")
+{
+	CHECK(1 == findMinDifference(vector<string>{"23:59", "00:00"}));
+}
+
+TEST_CASE("countBinarySubstrings", "[single-file]")
+{
+	CHECK(6 == countBinarySubstrings("00110011"));
+	CHECK(4 == countBinarySubstrings("10101"));
+	CHECK(3 == countBinarySubstrings("00110"));
+}
+
+
+TEST_CASE("minMoves2", "[single-file]")
+{
+	CHECK(2 == minMoves2(vector<int>{1, 2, 3}));
+}
+
+
+TEST_CASE("hammingDistance", "[single-file]")
+{
+	CHECK(2 == hammingDistance(1, 4));
+}
+
 #else
 
 
@@ -396,8 +421,10 @@ TEST_CASE("uniqueMorseRepresentations", "[single-file]")
 //		"testemail+david@lee.tcode.com"}));
 //}
 
-TEST_CASE("findMinDifference", "[single-file]")
+TEST_CASE("numSubarrayProductLessThanK", "[single-file]")
 {
-	CHECK(1 == findMinDifference(vector<string>{"23:59","00:00"}));
+	//CHECK(8 == countBinarySubstrings(vector<int>{10, 5, 2, 6},100 ));
 }
+
+
 #endif // !TEST_ALL

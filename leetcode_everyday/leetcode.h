@@ -2511,7 +2511,7 @@ bool backspaceCompare(string S, string T)
 	{
 		if (c != '#')
 			cs1.push(c);
-		else if(!cs1.empty())
+		else if (!cs1.empty())
 			cs1.pop();
 	}
 	for (auto c : T)
@@ -2697,4 +2697,152 @@ int findMinDifference(vector<string> timePoints)
 	for (int i = 1; i < temp.size(); i++)
 		res = min(res, temp[i] - temp[i - 1]);
 	return res;
+}
+
+int countBinarySubstrings(string s)
+{
+	vector<int> cnt(s.length(), 0);
+	vector<int> groups;
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (i == 0)
+			cnt[0] = 1;
+		else
+		{
+			if (s[i] == s[i - 1])
+				cnt[i] = cnt[i - 1] + 1;
+			else
+			{
+				cnt[i] = 1;
+				groups.push_back(cnt[i - 1]);
+			}
+		}
+	}
+	groups.push_back(cnt[s.length() - 1]);
+
+	int ans = 0;
+	if (groups.size() <= 1) return 0;
+	for (int i = 1; i < groups.size(); i++)
+		ans += min(groups[i], groups[i - 1]);
+	return ans;
+	//if (s.length() <= 1) return 0;
+	//vector<int> cnt0(s.length(), 0);
+	//vector<int> cnt1(s.length(), 0);
+	//cnt0[0] = s[0] == '0' ? 1 : 0;
+	//cnt1[0] = s[0] == '1' ? 1 : 0;
+	//for (int i = 1; i < s.length(); i++)
+	//{
+	//	if (s[i] == '0')
+	//		cnt0[i] = cnt0[i - 1] + 1;
+	//	else
+	//		cnt0[i] = cnt0[i - 1];
+	//	if (s[i] == '1')
+	//		cnt1[i] = cnt1[i - 1] + 1;
+	//	else
+	//		cnt1[i] = cnt1[i - 1];
+	//}
+	//int ans = 0;
+	//for (int i = 0; i < s.length(); i++)
+	//{
+	//	for (int j = 0; j < i; j++)
+	//	{ 
+	//		if (cnt0[i] - cnt0[j] == cnt1[i] - cnt1[j])
+	//		{
+	//			ans++;
+	//			cout << j << " : " << i << endl;
+	//		}
+	//	}
+	//}
+	//return ans;
+}
+
+
+int numSubarrayProductLessThanK(vector<int> nums, int k)
+{
+	//int min  = numeric_limits<int>::max();
+	//int prod = 1;
+	//int ans = 0;
+	//for (int i = 0; i < nums.size(); i++)
+	//{
+	//	prod *= nums[i];
+	//	if (prod <= k)
+	//	{
+	//	}
+	//}
+	return 0;
+}
+
+
+vector<vector<string>> groupAnagrams(vector<string> strs)
+{
+	unordered_map<string, vector<string>> mp;
+	for (string s : strs)
+	{
+		string t = s;
+		sort(t.begin(), t.end());
+		mp[t].push_back(s);
+	}
+	vector<vector<string>> anagrams;
+	for (auto p : mp)
+	{
+		anagrams.push_back(p.second);
+	}
+	return anagrams;
+
+	//unordered_map<string, int> string2mask;
+	//for (int i = 0; i < strs.size(); i++)
+	//{
+	//	string2mask.insert(make_pair(strs[i], 0));
+	//	for (int j = 0; j < strs[i].length(); j++)
+	//	{
+	//		string2mask[strs[i]] += (0x1 << (strs[i][j] - 'a'));
+	//	}
+	//}
+	//vector<vector<string>> ans;
+	//unordered_map<int, vector<string>> mask2list;
+	//for (size_t i = 0; i < strs.size(); i++)
+	//{
+	//	if (mask2list.find(string2mask[strs[i]]) == mask2list.end())
+	//	{
+	//		vector<string> ss;
+	//		ss.push_back(strs[i]);
+	//		mask2list[string2mask[strs[i]]] = ss;
+	//	}
+	//	else
+	//	{
+	//		mask2list[string2mask[strs[i]]].push_back(strs[i]);
+	//	}
+	//}
+	//for (auto it : mask2list)
+	//	ans.push_back(it.second);
+	//return ans;
+}
+
+
+int minMoves2(vector<int> nums)
+{
+	sort(nums.begin(), nums.end());
+	int i = 0; 
+	int j = nums.size() - 1;
+	int ans = 0;
+	while (i < j)
+	{
+		ans += nums[j] - nums[i];
+		i++;
+		j--;
+	}
+	return ans;
+}
+
+
+int hammingDistance(int x, int y)
+{
+	int tmp = x ^ y;
+	int ans = 0;
+	for (int i = 0; i < 32; i++)
+	{
+		if ((tmp & (0x1 << i)))
+			ans++;
+	}
+	return ans;
 }
