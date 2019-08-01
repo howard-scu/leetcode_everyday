@@ -2846,3 +2846,73 @@ int hammingDistance(int x, int y)
 	}
 	return ans;
 }
+
+int peakIndexInMountainArray(vector<int> A)
+{
+	bool findPeak = false;
+	int peak = 0;
+	for (int i = 1; i < A.size(); i++)
+	{
+		if (!findPeak && A[i] > A[i - 1])
+		{
+			continue;
+		}
+		else if (!findPeak && A[i] <= A[i - 1])
+		{
+			findPeak = true;
+			peak = i - 1;
+		}
+		else if (findPeak && A[i] < A[i - 1])
+		{
+			continue;
+		}
+		else if (findPeak && A[i] >= A[i - 1])
+			return 0;
+	}
+	return peak;
+}
+
+int findPeakElement_helper(vector<int>& nums, int l, int r)
+{
+	if (l == r)
+		return l;
+	int mid = (l + r) / 2;
+	if (nums[mid] > nums[mid + 1])
+		return findPeakElement_helper(nums, l, mid);
+	return findPeakElement_helper(nums, mid + 1, r);
+}
+
+int findPeakElement(vector<int> nums)
+{
+	return findPeakElement_helper(nums, 0, nums.size() - 1);
+}
+
+
+int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D)
+{
+	//map<int, int> AB;
+	//map<int, int> CD;
+
+	//for (int i = 0; i < A.size(); i++)
+	//{
+	//	for (int j = i; j < B.size(); j++)
+	//	{
+	//		if (AB.find(A[i] + B[j]) == AB.end())
+	//			AB[A[i] + B[j]] = 1;
+	//		else
+	//			AB[A[i] + B[j]]++;
+
+	//		if (CD.find(A[i] + B[j]) == CD.end())
+	//			CD[A[i] + B[j]] = 1;
+	//		else
+	//			CD[A[i] + B[j]]++;
+	//	}
+	//}
+	//int result = 0;
+	//for (auto it = AB.begin(); it != AB.end(); ++it)
+	//{
+	//	if (CD.find(it->first) != CD.end())
+	//		result += (CD[it->first] * it->second);
+	//}
+	return result;
+}

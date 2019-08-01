@@ -411,6 +411,19 @@ TEST_CASE("hammingDistance", "[single-file]")
 	CHECK(2 == hammingDistance(1, 4));
 }
 
+TEST_CASE("peakIndexInMountainArray", "[single-file]")
+{
+	CHECK(1 == peakIndexInMountainArray(vector<int>{0, 1, 0}));
+	CHECK(1 == peakIndexInMountainArray(vector<int>{0, 2, 1, 0}));
+}
+
+
+TEST_CASE("findPeakElement", "[single-file]")
+{
+	CHECK(2 == findPeakElement(vector<int>{1, 2, 3, 1}));
+	CHECK(5 == findPeakElement(vector<int>{1, 2, 1, 3, 5, 6, 4}));
+}
+
 #else
 
 
@@ -420,11 +433,5 @@ TEST_CASE("hammingDistance", "[single-file]")
 //		"test.e.mail+bob.cathy@leetcode.com", 
 //		"testemail+david@lee.tcode.com"}));
 //}
-
-TEST_CASE("numSubarrayProductLessThanK", "[single-file]")
-{
-	//CHECK(8 == countBinarySubstrings(vector<int>{10, 5, 2, 6},100 ));
-}
-
 
 #endif // !TEST_ALL
