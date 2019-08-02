@@ -1987,36 +1987,36 @@ vector<vector<int>> fourSum(vector<int> nums, int target)
 }
 
 
-int search(vector<int> nums, int target)
-{
-	if (nums.size() == 0) return -1;
-	int l = 0;
-	int r = nums.size() - 1;
-	while (l < r)
-	{
-		int m = (l + r) / 2;
-		if (nums[l] < nums[r]) break;
-		else if (nums[l] > nums[m]) r = m;
-		else l = m + 1;
-	}
-
-	// binary search
-	int n = nums.size();
-	r = (l + n - 1) % n;
-	int size = n;
-	while (size > 0)
-	{
-		int m = (l + ((r - l + n) % n) / 2) % n;
-		if (nums[m] < target)
-			l = (m + 1) % n;
-		else if (nums[m] > target)
-			r = (m - 1 + n) % n;
-		else
-			return m;
-		size = (r - l + n + 1) % n;
-	}
-	return -1;
-}
+//int search(vector<int> nums, int target)
+//{
+//	if (nums.size() == 0) return -1;
+//	int l = 0;
+//	int r = nums.size() - 1;
+//	while (l < r)
+//	{
+//		int m = (l + r) / 2;
+//		if (nums[l] < nums[r]) break;
+//		else if (nums[l] > nums[m]) r = m;
+//		else l = m + 1;
+//	}
+//
+//	// binary search
+//	int n = nums.size();
+//	r = (l + n - 1) % n;
+//	int size = n;
+//	while (size > 0)
+//	{
+//		int m = (l + ((r - l + n) % n) / 2) % n;
+//		if (nums[m] < target)
+//			l = (m + 1) % n;
+//		else if (nums[m] > target)
+//			r = (m - 1 + n) % n;
+//		else
+//			return m;
+//		size = (r - l + n + 1) % n;
+//	}
+//	return -1;
+//}
 
 vector<int> sortedSquares(vector<int>& nums)
 {
@@ -2822,7 +2822,7 @@ vector<vector<string>> groupAnagrams(vector<string> strs)
 int minMoves2(vector<int> nums)
 {
 	sort(nums.begin(), nums.end());
-	int i = 0; 
+	int i = 0;
 	int j = nums.size() - 1;
 	int ans = 0;
 	while (i < j)
@@ -2890,29 +2890,121 @@ int findPeakElement(vector<int> nums)
 
 int fourSumCount(vector<int>& A, vector<int>& B, vector<int>& C, vector<int>& D)
 {
-	//map<int, int> AB;
-	//map<int, int> CD;
+	int result = 0;
+	unordered_map<int, int> umap;
+	for (auto a : A)
+		for (auto b : B)
+			umap[a + b]++;
 
-	//for (int i = 0; i < A.size(); i++)
-	//{
-	//	for (int j = i; j < B.size(); j++)
-	//	{
-	//		if (AB.find(A[i] + B[j]) == AB.end())
-	//			AB[A[i] + B[j]] = 1;
-	//		else
-	//			AB[A[i] + B[j]]++;
+	for (auto c : C)
+	{
+		for (auto d : D)
+		{
+			auto it = umap.find(0 - c - d);
+			if (it != umap.end())
+				result += it->second;
+		}
+	}
 
-	//		if (CD.find(A[i] + B[j]) == CD.end())
-	//			CD[A[i] + B[j]] = 1;
-	//		else
-	//			CD[A[i] + B[j]]++;
-	//	}
-	//}
-	//int result = 0;
-	//for (auto it = AB.begin(); it != AB.end(); ++it)
-	//{
-	//	if (CD.find(it->first) != CD.end())
-	//		result += (CD[it->first] * it->second);
-	//}
 	return result;
+}
+
+bool isValidSudoku(vector<vector<char>>& board)
+{
+	int result = true;
+	for (int i = 0; i < board.size(); i++)
+	{
+		unordered_map<char, int> umap1;
+		unordered_map<char, int> umap2;
+		for (int j = 0; j < board[0].size(); j++)
+		{
+			if (board[i][j] != '.')
+			{
+				umap1[board[i][j]]++;
+				if (umap1[board[i][j]] > 1)
+					return false;
+			}
+			if (board[j][i] != '.')
+			{
+				umap2[board[j][i]]++;
+				if (umap2[board[j][i]] > 1)
+					return false;
+			}
+		}
+	}
+	int N9[9][2] = { { 0,0 },{ 0,1 },{ 0,2 },{ 1,0 },{ 1,1 },{ 1,2 },{ 2,0 },{ 2,1 },{ 2,2 } };
+	for (int i = 0; i < 9; i += 3)
+	{
+		for (int j = 0; j < 9; j += 3)
+		{
+			unordered_map<char, int> umap;
+			for (int k = 0; k < 9; k++)
+			{
+				int ii = i + N9[k][0];
+				int jj = j + N9[k][1];
+				if (board[ii][jj] != '.')
+				{
+					umap[board[ii][jj]]++;
+					if (umap[board[ii][jj]] > 1)
+						return false;
+				}
+			}
+		}
+	}
+	return result;
+}
+
+
+int search_helper(vector<int>& nums, int target, int l, int r)
+{
+	if (l > r) return -1;
+
+	int mid = (l + r) / 2;
+	if (nums[mid] == target)
+		return mid;
+	else if (nums[mid] > target)
+		return search_helper(nums, target, l, mid - 1);
+	else
+		return search_helper(nums, target, mid + 1, r);
+}
+
+int search(vector<int> nums, int target)
+{
+	return search_helper(nums, target, 0, nums.size() - 1);
+}
+
+bool isPerfectSquare_helper(int num, int left, int right)
+{
+	if (left > right) return false;
+	int mid = (left + right) / 2;
+	if (mid* mid == num)
+		return true;
+	else if (mid*mid < num)
+		return isPerfectSquare_helper(num, mid + 1, right);
+	else
+		return isPerfectSquare_helper(num, left, mid - 1);
+}
+
+bool isPerfectSquare(int num)
+{
+	return isPerfectSquare_helper(num, 1, num);
+}
+
+int guess(int num)
+{
+	return 1;
+}
+
+int guessNumber_helper(long min, long max)
+{
+	if (min == max) return min;
+	long mid = (min + max) / 2;
+	if (guess(mid) == 0) return mid;
+	else if (guess(mid) == -1) return guessNumber_helper(min, mid-1);
+	else return guessNumber_helper(mid+1, max);
+}
+
+int guessNumber(int n)
+{
+	return guessNumber_helper(0, n);
 }

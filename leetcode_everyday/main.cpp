@@ -424,6 +424,15 @@ TEST_CASE("findPeakElement", "[single-file]")
 	CHECK(5 == findPeakElement(vector<int>{1, 2, 1, 3, 5, 6, 4}));
 }
 
+TEST_CASE("search", "[single-file]")
+{
+	CHECK(0 == search(vector<int>{1, 2, 3, 5}, 1));
+	CHECK(2 == search(vector<int>{1, 2, 3, 5}, 3));
+	CHECK(-1 == search(vector<int>{1, 2, 3, 7}, 15));
+	CHECK(-1 == search(vector<int>{1, 2, 3, 17}, 0));
+}
+
+
 #else
 
 
@@ -433,5 +442,12 @@ TEST_CASE("findPeakElement", "[single-file]")
 //		"test.e.mail+bob.cathy@leetcode.com", 
 //		"testemail+david@lee.tcode.com"}));
 //}
+TEST_CASE("isPerfectSquare", "[single-file]")
+{
+	CHECK(isPerfectSquare(1));
+	CHECK(isPerfectSquare(16));
+	CHECK(!isPerfectSquare(15));
+	CHECK(!isPerfectSquare(5));
+}
 
 #endif // !TEST_ALL
