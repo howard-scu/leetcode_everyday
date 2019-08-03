@@ -451,6 +451,14 @@ TEST_CASE("relativeSortArray", "[single-file]")
 		vector<int>{2, 1, 4, 3, 9, 6});
 	CHECK_THAT(vec, Catch::Matchers::Equals(res));
 }
+
+TEST_CASE("findPairs", "[single-file]")
+{
+	CHECK(2 == findPairs(vector<int>{3, 1, 4, 1, 5}, 2));
+	CHECK(4 == findPairs(vector<int>{1, 2, 3, 4, 5}, 1));
+	CHECK(1 == findPairs(vector<int>{1, 3, 1, 5, 4}, 0));
+}
+
 #else
 
 
@@ -461,11 +469,10 @@ TEST_CASE("relativeSortArray", "[single-file]")
 //		"testemail+david@lee.tcode.com"}));
 //}
 
-TEST_CASE("findPairs", "[single-file]")
+TEST_CASE("findShortestSubArray", "[single-file]")
 {
-	CHECK(2 == findPairs(vector<int>{3, 1, 4, 1, 5}, 2));
-	CHECK(4 == findPairs(vector<int>{1, 2, 3, 4, 5}, 1));
-	CHECK(1 == findPairs(vector<int>{1, 3, 1, 5, 4}, 0));
+	CHECK(2 == findShortestSubArray(vector<int>{1, 2, 2, 3, 1}));
+	CHECK(6 == findShortestSubArray(vector<int>{1, 2, 2, 3, 1, 4, 2}));
 }
 
 #endif // !TEST_ALL

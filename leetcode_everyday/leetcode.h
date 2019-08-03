@@ -3077,3 +3077,37 @@ int findPairs(vector<int> nums, int k)
 	}
 	return result / 2;
 }
+
+int findShortestSubArray(vector<int> nums)
+{
+	unordered_map<int, vector<int>> hmap;
+	for (int i = 0; i < nums.size(); i++)
+	{
+		if (hmap.find(nums[i]) == hmap.end())
+		{
+			vector<int> info{ i,i,1 };
+			hmap[nums[i]] = info;
+		}
+		else
+		{
+			hmap[nums[i]][1] = i;
+			hmap[nums[i]][2]++;
+		}
+	}
+	int degree = 0;
+	int result = 0;
+	for (auto c : hmap)
+	{
+		if (degree < c.second[2])
+		{
+			degree = c.second[2];
+			result = c.second[1] - c.second[0] + 1;
+		}
+		else if (degree == c.second[2])
+		{
+			auto _result = c.second[1] - c.second[0] + 1;
+			result = result < _result ? result : _result;
+		}
+	}
+	return result;
+}
