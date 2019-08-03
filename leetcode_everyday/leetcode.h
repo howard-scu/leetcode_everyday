@@ -3008,3 +3008,72 @@ int guessNumber(int n)
 {
 	return guessNumber_helper(0, n);
 }
+
+int heightChecker(vector<int> heights)
+{
+	auto cp = heights;
+	sort(heights.begin(), heights.end());
+	int result = 0;
+	for (int i = 0; i < heights.size(); i++)
+		if (cp[i] != heights[i]) result++;
+	return result;
+}
+
+vector<int> relativeSortArray(vector<int> arr1, vector<int> arr2)
+{
+	// ´´½¨map
+	unordered_map<int, int> umap1, umap2;
+	for (int i = 0; i < arr2.size(); i++)
+	{
+		umap1[arr2[i]] = i - 3000;
+		umap2[i - 3000] = arr2[i];
+	}
+	vector<int> result;
+	for (int i = 0; i < arr1.size(); i++)
+	{
+		if (umap1.find(arr1[i]) == umap1.end())
+			result.push_back(arr1[i]);
+		else
+			result.push_back(umap1[arr1[i]]);
+	}
+	sort(result.begin(), result.end());
+	for (int i = 0; i < arr1.size(); i++)
+	{
+		if (umap2.find(result[i]) != umap2.end())
+			result[i] = umap2[result[i]];
+	}
+	return result;
+}
+
+#include <unordered_set>
+
+int findPairs(vector<int> nums, int k)
+{
+	if (k < 0) return 0;
+
+	unordered_map<int, int> hmap;
+	for (auto v : nums)
+	{
+		hmap[v]++;
+	}
+
+	int result = 0;
+	if (k == 0)
+	{
+		for (auto v : hmap)
+		{
+			if (v.second > 1)
+				result++;
+		}
+		return result;
+	}
+
+	for (auto v : hmap)
+	{
+		if (hmap.find(v.first + k) != hmap.end())
+			result++;
+		if (hmap.find(v.first - k) != hmap.end())
+			result++;
+	}
+	return result / 2;
+}

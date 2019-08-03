@@ -432,7 +432,25 @@ TEST_CASE("search", "[single-file]")
 	CHECK(-1 == search(vector<int>{1, 2, 3, 17}, 0));
 }
 
+TEST_CASE("isPerfectSquare", "[single-file]")
+{
+	CHECK(isPerfectSquare(1));
+	CHECK(isPerfectSquare(16));
+	CHECK(!isPerfectSquare(15));
+	CHECK(!isPerfectSquare(5));
+}
+TEST_CASE("heightChecker", "[single-file]")
+{
+	CHECK(3 == heightChecker(vector<int>{1, 1, 4, 2, 1, 3}));
+}
 
+TEST_CASE("relativeSortArray", "[single-file]")
+{
+	vector<int> vec{ 2, 2, 2, 1, 4, 3, 3, 9, 6, 7, 19 };
+	auto res = relativeSortArray(vector<int>{2, 3, 1, 3, 2, 4, 6, 7, 9, 2, 19},
+		vector<int>{2, 1, 4, 3, 9, 6});
+	CHECK_THAT(vec, Catch::Matchers::Equals(res));
+}
 #else
 
 
@@ -442,12 +460,12 @@ TEST_CASE("search", "[single-file]")
 //		"test.e.mail+bob.cathy@leetcode.com", 
 //		"testemail+david@lee.tcode.com"}));
 //}
-TEST_CASE("isPerfectSquare", "[single-file]")
+
+TEST_CASE("findPairs", "[single-file]")
 {
-	CHECK(isPerfectSquare(1));
-	CHECK(isPerfectSquare(16));
-	CHECK(!isPerfectSquare(15));
-	CHECK(!isPerfectSquare(5));
+	CHECK(2 == findPairs(vector<int>{3, 1, 4, 1, 5}, 2));
+	CHECK(4 == findPairs(vector<int>{1, 2, 3, 4, 5}, 1));
+	CHECK(1 == findPairs(vector<int>{1, 3, 1, 5, 4}, 0));
 }
 
 #endif // !TEST_ALL
