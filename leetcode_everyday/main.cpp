@@ -459,6 +459,12 @@ TEST_CASE("findPairs", "[single-file]")
 	CHECK(1 == findPairs(vector<int>{1, 3, 1, 5, 4}, 0));
 }
 
+TEST_CASE("findShortestSubArray", "[single-file]")
+{
+	CHECK(2 == findShortestSubArray(vector<int>{1, 2, 2, 3, 1}));
+	CHECK(6 == findShortestSubArray(vector<int>{1, 2, 2, 3, 1, 4, 2}));
+}
+
 #else
 
 
@@ -469,10 +475,5 @@ TEST_CASE("findPairs", "[single-file]")
 //		"testemail+david@lee.tcode.com"}));
 //}
 
-TEST_CASE("findShortestSubArray", "[single-file]")
-{
-	CHECK(2 == findShortestSubArray(vector<int>{1, 2, 2, 3, 1}));
-	CHECK(6 == findShortestSubArray(vector<int>{1, 2, 2, 3, 1, 4, 2}));
-}
 
 #endif // !TEST_ALL

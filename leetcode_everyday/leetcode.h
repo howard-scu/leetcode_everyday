@@ -3000,8 +3000,8 @@ int guessNumber_helper(long min, long max)
 	if (min == max) return min;
 	long mid = (min + max) / 2;
 	if (guess(mid) == 0) return mid;
-	else if (guess(mid) == -1) return guessNumber_helper(min, mid-1);
-	else return guessNumber_helper(mid+1, max);
+	else if (guess(mid) == -1) return guessNumber_helper(min, mid - 1);
+	else return guessNumber_helper(mid + 1, max);
 }
 
 int guessNumber(int n)
@@ -3111,3 +3111,155 @@ int findShortestSubArray(vector<int> nums)
 	}
 	return result;
 }
+
+
+
+int numRookCaptures(vector<vector<char>>& board)
+{
+	int i, j;
+	bool findR = false;
+	for (i = 0; i < board.size() && !findR; i++)
+	{
+		for (j = 0; j < board[0].size() && !findR; j++)
+		{
+			if (board[i][j] == 'R')
+			{
+				findR = true;
+			}
+		}
+	}
+	i -= 1;
+	j -= 1;
+
+	int result = 0;
+	for (int n = i - 1; n >= 0; n--)
+	{
+		if (board[n][j] == '.')
+			continue;
+		else if (board[n][j] == 'B')
+			break;
+		else if (board[n][j] == 'p')
+		{
+			result++;
+			break;
+		}
+	}
+
+	for (int n = i + 1; n < 8; n++)
+	{
+		if (board[n][j] == '.')
+			continue;
+		else if (board[n][j] == 'B')
+			break;
+		else if (board[n][j] == 'p')
+		{
+			result++;
+			break;
+		}
+	}
+
+	for (int n = j - 1; n >= 0; n--)
+	{
+		if (board[i][n] == '.')
+			continue;
+		else if (board[i][n] == 'B')
+			break;
+		else if (board[i][n] == 'p')
+		{
+			result++;
+			break;
+		}
+	}
+
+	for (int n = j + 1; n < 8; n++)
+	{
+		if (board[i][n] == '.')
+			continue;
+		else if (board[i][n] == 'B')
+			break;
+		else if (board[i][n] == 'p')
+		{
+			result++;
+			break;
+		}
+	}
+
+	return result;
+}
+
+
+vector<int> sumEvenAfterQueries(vector<int>& A, vector<vector<int>>& queries)
+{
+	int evenSum = 0;
+	for (auto val : A)
+		if (val % 2 == 0) evenSum += val;
+	vector<int> result;
+	for (int i = 0; i < queries.size(); i++)
+	{
+		auto val = queries[i][0];
+		auto idx = queries[i][1];
+		if (A[idx] % 2 == 0)
+			evenSum -= A[idx];
+		A[idx] += val;
+		if (A[idx] % 2 == 0)
+			evenSum += A[idx];
+		result.push_back(evenSum);
+	}
+	return result;
+}
+
+bool isToeplitzMatrix(vector<vector<int>>& matrix)
+{
+	int row = matrix.size();
+	int col = matrix[0].size();
+	if (row <= 1 || col <= 1) return true;
+
+	for (int i = 0; i < row; i++)
+	{
+		for (int j = 0; j < col; j++)
+		{
+			// 当前点（i,j）
+			// 前向点（i-1,j-1）
+			if ((i - 1) >= 0 && (j - 1) >= 0)
+			{
+				if (matrix[i][j] != matrix[i - 1][j - 1])
+					return false;
+			}
+		}
+	}
+	return true;
+}
+
+//void duplicateZeros(vector<int> arr)
+//{
+//	int n = 0;
+//	int m = 0;
+//
+//	for (; m < arr.size();)
+//	{
+//		if (arr[n] == 0)
+//			m += 2;
+//		else
+//			m += 1;
+//		n++;
+//	}
+//
+//	int j = n - 1;
+//	for (int i = arr.size() - 1; i >= 0 && j >= 0; i--)
+//	{
+//		if (arr[j] != 0)
+//			arr[i] = arr[j--];
+//		else
+//		{
+//			arr[i] = 0;
+//			if (i > 0)
+//				arr[i - 1] = 0;
+//			i--;
+//			j--;
+//		}
+//		for (auto v : arr)
+//			cout << v << ",";
+//		cout << endl;
+//	}
+//	getchar();
+//}
