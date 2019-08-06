@@ -3263,3 +3263,97 @@ bool isToeplitzMatrix(vector<vector<int>>& matrix)
 //	}
 //	getchar();
 //}
+
+bool isMonotonic(vector<int>& A)
+{
+	if (A.size() <= 2) return true;
+	int sign = 0;
+	for (int i = 1; i < A.size(); i++)
+	{
+		if (sign == 0)
+		{
+			if (A[i] - A[i - 1] == 0)
+				continue;
+			else if (A[i] - A[i - 1] > 0)
+				sign = 1;
+			else
+				sign = -1;
+		}
+		else
+		{
+			if (sign == -1 && A[i] - A[i - 1] > 0)
+				return false;
+			else if (sign == 1 && A[i] - A[i - 1] < 0)
+				return false;
+		}
+	}
+	return true;
+}
+
+bool canThreePartsEqualSum(vector<int> A)
+{
+	vector<int> sum(A.size(), 0);
+	sum[0] = A[0];
+	for (int i = 1; i < A.size(); i++)
+	{
+		sum[i] = A[i] + sum[i - 1];
+	}
+	if (sum[A.size() - 1] % 3 != 0) return false;
+	int n = sum[A.size() - 1] / 3;
+	bool flag1 = false;
+	bool flag2 = false;
+	for (int i = 0; i < sum.size(); i++)
+	{
+		if (sum[i] == n)
+			flag1 = true;
+		if (flag1 && sum[i] == 2 * n)
+			flag2 = true;
+	}
+	return flag2;
+}
+
+vector<int> fairCandySwap(vector<int>& A, vector<int>& B)
+{
+	int sa = 0, sb = 0;  // sum of A, B respectively
+	for (int x : A) sa += x;
+	for (int x : B) sb += x;
+	int delta = (sb - sa) / 2;
+	// If Alice gives x, she expects to receive x + delta
+
+	unordered_set<int> setB;
+	for (int x : B) setB.insert(x);
+
+	for (int x : A)
+		if (setB.find(x + delta) != setB.end())
+			return vector<int>{x, x + delta};
+	return vector<int>();
+}
+
+
+vector<vector<int>> imageSmoother(vector<vector<int>>& M)
+{
+	vector<vector<int>> result(M);
+	for (int i = 0; i < M.size(); i++)
+	{
+		for (int j = 0; j < M[0].size(); j++)
+		{
+			int sum = 0;
+			int cnt = 0;
+			for (int p = -1; p <= 1; p++)
+			{
+				for (int q = -1; q <= 1; q++)
+				{
+					int ii = i + p;
+					int jj = j + q;
+					if (ii >= 0 && ii < M.size() && jj >= 0 && jj < M[0].size())
+					{
+						sum += M[ii][jj];
+						cnt++;
+					}
+				}
+			}
+			result[i][j] = floor(sum / cnt);
+		}
+	}
+	return result;
+}

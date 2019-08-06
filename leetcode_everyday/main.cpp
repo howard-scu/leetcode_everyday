@@ -474,6 +474,8 @@ TEST_CASE("findShortestSubArray", "[single-file]")
 //		"test.e.mail+bob.cathy@leetcode.com", 
 //		"testemail+david@lee.tcode.com"}));
 //}
-
-
+TEST_CASE("canThreePartsEqualSum", "[single-file]")
+{
+	CHECK(!canThreePartsEqualSum(vector<int>{6, 1, 1, 13, -1, 0, -10, 20}));
+}
 #endif // !TEST_ALL
