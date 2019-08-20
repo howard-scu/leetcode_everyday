@@ -465,6 +465,11 @@ TEST_CASE("findShortestSubArray", "[single-file]")
 	CHECK(6 == findShortestSubArray(vector<int>{1, 2, 2, 3, 1, 4, 2}));
 }
 
+TEST_CASE("canThreePartsEqualSum", "[single-file]")
+{
+	CHECK(!canThreePartsEqualSum(vector<int>{6, 1, 1, 13, -1, 0, -10, 20}));
+}
+
 #else
 
 
@@ -474,8 +479,11 @@ TEST_CASE("findShortestSubArray", "[single-file]")
 //		"test.e.mail+bob.cathy@leetcode.com", 
 //		"testemail+david@lee.tcode.com"}));
 //}
-TEST_CASE("canThreePartsEqualSum", "[single-file]")
+
+
+TEST_CASE("countCharacters", "[single-file]")
 {
-	CHECK(!canThreePartsEqualSum(vector<int>{6, 1, 1, 13, -1, 0, -10, 20}));
+	CHECK(6 == countCharacters(vector<string>{"cat", "bt", "hat", "tree"}, "atach"));
+	CHECK(10 == countCharacters(vector<string>{"hello", "world", "leetcode"}, "welldonehoneyr"));
 }
 #endif // !TEST_ALL

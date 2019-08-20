@@ -3357,3 +3357,40 @@ vector<vector<int>> imageSmoother(vector<vector<int>>& M)
 	}
 	return result;
 }
+
+int countCharacters(vector<string> words, string chars)
+{
+	unordered_map<char, int> umap;
+	for (auto c : chars)
+		umap[c]++;
+
+	int result = 0;
+	for (auto s : words)
+	{
+		unordered_map<char, int> mm;
+		for (auto c : s)
+			mm[c]++;
+
+		bool flag = true;
+		for (auto it : mm)
+		{
+			if (umap[it.first] < it.second)
+			{
+				flag = false;
+				break;
+			}
+		}
+		if(flag)
+			result += s.length();
+	}
+	return result;
+}
+
+int maximumProduct(vector<int>& nums)
+{
+	sort(nums.begin(), nums.end());
+	int  n = nums.size();
+	auto a = nums[n - 1] * nums[n - 3] * nums[n - 2];
+	auto b = nums[n - 1] * nums[0] * nums[1];
+	return a > b ? a : b;
+}
