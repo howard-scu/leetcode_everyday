@@ -3394,3 +3394,18 @@ int maximumProduct(vector<int>& nums)
 	auto b = nums[n - 1] * nums[0] * nums[1];
 	return a > b ? a : b;
 }
+
+
+int arrangeCoins(int n)
+{
+	long sum = 0;
+	int  result = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		result++;
+		sum += i;
+		if (sum > n)
+			return result - 1;
+	}
+	return result;
+}
